@@ -1,0 +1,10 @@
+﻿@model UsersGridViewModel
+@{
+    ViewData["Title"] = Localizer["Admin_Users"];
+}
+
+<div class="main-container">
+    <div id="allUsers" class="w-100">
+        <partial name="_UserCards" model="Model" />
+    </div>
+</div>

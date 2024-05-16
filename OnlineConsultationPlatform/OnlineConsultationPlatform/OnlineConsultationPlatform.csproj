@@ -6,4 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineConsultationPlatform.Core\OnlineConsultationPlatform.Core.csproj" />
+    <ProjectReference Include="..\OnlineConsultationPlatform.Data\OnlineConsultationPlatform.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\reports\" />
+  </ItemGroup>
+
 </Project>

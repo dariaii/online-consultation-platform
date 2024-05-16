@@ -1,0 +1,10 @@
+﻿@model MeetingsGridViewModel
+@{
+    ViewData["Title"] = Localizer["Admin_AllMeetings"];
+}
+
+<div class="main-container">
+    <div id="meetings-table" class="w-100">
+        <partial name="_MeetingsTable" model="Model" />
+    </div>
+</div>

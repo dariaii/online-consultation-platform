@@ -1,0 +1,44 @@
+﻿@model OfflineReportsViewModel
+@{
+    ViewData["Title"] = @Localizer["Reports_Reports"];
+    var datapickerLang = Localizer["Global_LanguageEditionShortLower"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <div class="page-title-wrap">
+            <div class="title-box">
+                <h2>@Localizer["Reports_Reports"]</h2>
+                <h3>@Localizer["Reports_UploadOfflineReport"]</h3>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" asp-action="@nameof(ReportsController.UploadOfflineReport)" enctype="multipart/form-data">
+                <div class="col-xl-4">
+                    <div class="input-group">
+                        <label asp-for="MeetingDate">@Localizer["Reports_MeetingDate"]</label>
+                        <input asp-for="MeetingDate" value="" type="datetime" class="form-control air-datepicker-report w-100" autocomplete="off" />
+                        <span asp-validation-for="MeetingDate" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <label asp-for="TeacherName">@Localizer["Reports_TeacherName"]</label>
+                        <input asp-for="TeacherName" type="text">
+                        <span asp-validation-for="TeacherName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="input-box">
+                        <label asp-for="ReportFile">@Localizer["Reports_SelectFile"]</label>
+                        <input asp-for="ReportFile" type="file">
+                        <span asp-validation-for="ReportFile" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <button class="upload-btn" type="submit">
+                    <span class="icon-upload"></span>
+                    @Localizer["Reports_UploadItem"]
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

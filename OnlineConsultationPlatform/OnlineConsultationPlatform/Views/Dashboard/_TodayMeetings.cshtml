@@ -1,0 +1,37 @@
+﻿@model List<Meeting>
+
+<div class="today-wrap">
+    <div class="schedule-date-wrap">
+        <div>
+            <h3>@Localizer["Dashboard_Today"] @DateFormatService.ToDayMonthYear(DateTime.Now)</h3>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model?.Any() == true)
+        {
+            foreach (var meeting in Model)
+            {
+                <div class="col-xl-6 col-xxl-4">
+                    <div class="sch-card-item sch-today-item mb-3">
+                        <div class="meeting-time">
+                            <span>@DateFormatService.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
+                        </div>
+                        <div class="mentor-name">
+                            <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>
+                        </div>
+                        <div class="booked-by">
+                            <span>@Localizer["Dashboard_MeetingBookedBy"] @meeting.User?.FirstName @meeting.User?.LastName</span>
+                        </div>
+                        <div class="booked-by">
+                            <a href="@meeting.MeetingUrl" target="_blank">@Localizer["Dashboard_MeetingLink"]</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>@Localizer["Dashboard_NoTodayMeetings"]</p>
+        }
+    </div>
+</div>

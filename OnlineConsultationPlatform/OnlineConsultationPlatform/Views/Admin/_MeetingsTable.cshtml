@@ -1,0 +1,96 @@
+﻿@model MeetingsGridViewModel
+
+<div class="main-content-left">
+    <div class="page-title-wrap">
+        <div class="title-box">
+            <h2>@Localizer["Admin_AllMeetings"]</h2>
+            <h3>@Localizer["Admin_BrowseAllMeetings"]</h3>
+        </div>
+    </div>   
+    <div class="switch-wrap mb-5">
+        <h5>@Localizer["Admin_ShowUnconfirmedMeetings"]</h5>
+
+        <label class="switch">
+            <input type="checkbox"
+                    data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredMeetings), "Admin", new { ShowUnconfirmed = !Model.Filter.ShowUnconfirmed, page = 1, pageSize = Model.Filter.PageSize })"
+                    data-ajax-target="#meetings-table"
+                    @(Model.Filter.ShowUnconfirmed ? "checked" : "")>
+
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div id="meetings-table">
+        <div class="row">
+            @if (Model.Data.Any())
+            {
+                <div class="col-12">
+                    <div class="table-responsive table-wrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>@Localizer["Admin_Subject"]</th>
+                                    <th>@Localizer["Admin_MeetingDate"]</th>
+                                    <th>@Localizer["Admin_UserName"]</th>
+                                    <th>@Localizer["Admin_UserEmail"]</th>
+                                    <th>@Localizer["Admin_MentorName"]</th>
+                                    <th>@Localizer["Admin_MentorEmail"]</th>
+                                    <th>@Localizer["Admin_IsConfirmed"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var meeting in Model.Data)
+                                {
+                                    <tr>
+                                        <td>@meeting.Subject</td>
+                                        <td>@meeting.MeetingDate.ToDayMonthYearNumbersOnly()</td>
+                                        <td>@meeting.User?.FirstName @meeting.User?.LastName</td>
+                                        <td>@meeting.User?.Email</td>
+                                        <td>@meeting.Mentor?.FirstName @meeting.Mentor?.LastName</td>
+                                        <td>@meeting.Mentor?.Email</td>
+                                        <td><i class="fa fa-@(meeting.MeetingDate != null ? "check" : "times")"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (Model.PagesCount > 1)
+                    {
+                        <div class="pagination-wrap">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item @(Model.Filter.Page == 1 ? "disabled" : "")">
+                                        <a class="page-link"
+                                            data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredMeetings), "Admin", new { ShowUnconfirmed = Model.Filter.ShowUnconfirmed, page = Model.PreviousPage, pageSize = Model.Filter.PageSize })"
+                                            data-ajax-target="#meetings-table">@Localizer["Reports_PaginationPrevious"]</a>
+                                    </li>
+
+                                    @for (int pageIndex = 1; pageIndex <= Model.PagesCount; pageIndex++)
+                                    {
+                                        <li class="page-item @(pageIndex == Model.Filter.Page ? "active" : "")">
+                                            <a class="page-link"
+                                            data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredMeetings), "Admin", new { ShowUnconfirmed = Model.Filter.ShowUnconfirmed, page = pageIndex, pageSize = Model.Filter.PageSize })"
+                                            data-ajax-target="#meetings-table">@pageIndex</a>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(Model.Filter.Page >= Model.PagesCount ? "disabled" : "")">
+                                        <a class="page-link"
+                                             data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredMeetings), "Admin", new { ShowUnconfirmed = Model.Filter.ShowUnconfirmed, page = Model.NextPage, pageSize = Model.Filter.PageSize })"
+                                             data-ajax-target="#meetings-table">
+                                             @Localizer["Reports_PaginationNext"]
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>@Localizer["Admin_NoMeetings"]</p>
+            }
+        </div>
+    </div>
+</div>

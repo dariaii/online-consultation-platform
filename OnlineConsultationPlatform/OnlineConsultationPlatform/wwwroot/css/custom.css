@@ -1,0 +1,190 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+select:disabled {
+    cursor: default;
+    background-color: rgba(239, 239, 239, 0.3);
+    color: rgb(84, 84, 84);
+    border-color: #8d8d8d;
+}
+
+.show-details-form {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #f2f2f2;
+}
+
+.help-list-options {
+    list-style-type: disc;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    margin-left: 4rem;
+}
+
+.calendar-wrap {
+    width: unset;
+}
+
+    .calendar-wrap .calendar-items-wrap .calendar-item {
+        width: auto;
+        height: auto;
+        min-height: 6rem;
+    }
+
+    .calendar-wrap .calendar-weekday-wrap .weekday-box {
+        width: auto;
+    }
+
+    .calendar-wrap .calendar-currentday-wrap {
+        text-align: start;
+    }
+
+.nav-link {
+    color: white;
+    font-size: 1.7rem;
+}
+
+    .nav-link:hover {
+        color: white;
+        font-size: 1.7rem;
+        text-decoration: underline;
+    }
+
+.text-left {
+    text-align: left;
+}
+
+.text-danger {
+    text-align: left;
+}
+
+
+
+@media all and (max-width: 568px) {
+    .form-wrap {
+        margin: 0px;
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .calendar-wrap .calendar-currentday-wrap {
+        text-align: center;
+    }
+
+    .calendar-year-wrap {
+        margin-top: 2rem;
+    }
+
+    .calendar-wrap {
+        width: auto;
+    }
+
+        .calendar-wrap .calendar-weekday-wrap .weekday-box {
+            font-size: 1rem;
+        }
+
+    .calendar-currentday-wrap {
+        text-align: center;
+    }
+}
+
+.requests-badge {
+    border-radius: 50%;
+    min-width: fit-content !important;
+    font-size: 1.4rem !important;
+}
+
+.requests-badge-small {
+    right: -3.5rem;
+    padding: 0.2rem 0.6rem;
+}
+
+.requests-badge-big {
+    top: -0.2rem;
+    right: -4rem;
+    padding: 0.4rem 0.5rem;
+}
+
+.img-left {
+    max-height: 120px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    float: right;
+}
+
+.img-right {
+    max-width: 140px;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.img-max-w-100 {
+    max-width: 100px;
+    padding-top: 5px;
+}
+
+.img-max-w-75 {
+    max-width: 75px;
+}
+
+.img-max-w-80 {
+    max-width: 80px;
+}
+
+.link {
+    color: #0d6efd;
+}
+
+    .link:hover {
+        text-decoration: underline;
+    }
+
+li {
+    margin-bottom: 2rem;
+    color: #000;
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+ul li {
+    list-style: circle;
+}
+
+ol li {
+    list-style: decimal;
+}
+
+ul.language-selector li {
+    list-style: none;
+}
+
+.main-sidebar ul li {
+    list-style: none;
+}
+
+ul.pagination li {
+    list-style: none;
+}

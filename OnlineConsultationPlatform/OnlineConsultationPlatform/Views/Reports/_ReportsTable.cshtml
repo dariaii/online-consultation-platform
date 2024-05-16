@@ -1,0 +1,149 @@
+﻿@model ReportsGridViewModel
+
+@if (TempData["UploadReportSuccess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <h3 class="m-0">
+            @TempData["UploadReportSuccess"]
+        </h3>
+    </div>
+}
+@if (TempData["UploadReportError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <h3 class="m-0">
+            @TempData["UploadReportError"]
+        </h3>
+    </div>
+}
+
+<div class="row">
+    @if (User.IsInRole(nameof(Roles.Mentor)))
+    {
+        <div class="col-12">
+            <div class="submit-report-wrap mb-5 row">
+                <h4 class="mb-4">@Localizer["Reports_SubmitNewLabel"]</h4>
+
+                @if (Model.Meetings?.Any() == true)
+                {
+                    <form id="newReport" data-ajax-multipart="true" class="col-xl-4 col-lg-12">
+                        <div>
+                            <div class="input-box">
+                                <label for="meetingId">@Localizer["Reports_ChooseMeeting"]</label>
+                                <select name="meetingId" id="meetingId">
+                                    <option value="" selected disabled>@Localizer["Reports_ChooseMeeting"]</option>
+
+                                    @foreach (var meeting in Model.Meetings)
+                                    {
+                                        <option value="@meeting.Id">@meeting.MeetingDate - @meeting.User?.FirstName @meeting.User?.LastName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-box">
+                                <label for="file">@Localizer["Reports_SelectFile"]</label>
+                                <input type="file" id="file" name="file">
+                            </div>
+                        </div>
+                        <button class="upload-btn"
+                        data-ajax-action="@Url.Action(nameof(ReportsController.UploadReport), "Reports")"
+                        data-ajax-target="#allReports"
+                        data-ajax-source="#newReport"
+                        data-ajax-method="POST"
+                        data-ajax-multipart="true">
+                            <span class="icon-upload"></span>
+                            @Localizer["Reports_UploadItem"]
+                        </button>
+                    </form>
+                    <p class="col-xl-2 col-lg-12 m-4 pt-xl-5 pt-lg-3 d-flex justify-content-xl-center justify-content-lg-start">@Localizer["Reports_Or"]</p>
+                }
+                else
+                {
+                    <p>@Localizer["Reports_NoMeetings"]</p>
+                }
+                <div class="col-xl-4 col-lg-12 pt-xl-5 pt-lg-3">
+                    <a class="btn" asp-action="@nameof(ReportsController.UploadOfflineReport)" asp-controller="Reports">
+                        @Localizer["Reports_UploadOfflineReport"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Data?.Any() == true)
+    {
+        <div class="col-12">
+            <div class="table-responsive table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Reports_ReportName"]</th>
+                            <th>@Localizer["Reports_UploadDate"]</th>
+                            <th>@Localizer["Reports_SubmittedBy"]</th>
+                            <th>@Localizer["Reports_Email"]</th>
+                            @if (User.IsInRole(nameof(Roles.Admin)))
+                            {
+                                <th></th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var report in Model.Data)
+                        {
+                            <tr>
+                                <td>@report.ReportFilePath</td>
+                                <td>@report.UploadDate</td>
+                                <td>@report.User?.FirstName @report.User?.LastName</td>
+                                <td>@report.User?.Email</td>
+                                @if (User.IsInRole(nameof(Roles.Admin)))
+                                {
+                                    <td>
+                                        <a class="btn btn-primary" asp-action="@nameof(ReportsController.DownloadReport)" asp-route-fileName="@report.ReportFilePath">
+                                            @Localizer["Reports_DownloadReport"]
+                                        </a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (Model.PagesCount > 1)
+             {
+                <div class="pagination-wrap">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item @(Model.Filter.Page == 1 ? "disabled" : "")">
+                                <a class="page-link"
+                                    data-ajax-action="@Url.Action(nameof(ReportsController.GetNextPage), "Reports", new { page = Model.PreviousPage, pageSize = Model.Filter.PageSize })"
+                                    data-ajax-target="#allReports">@Localizer["Reports_PaginationPrevious"]</a>
+                            </li>
+
+                            @for (int pageIndex = 1; pageIndex <= Model.PagesCount; pageIndex++)
+                            {
+                                <li class="page-item @(pageIndex == Model.Filter.Page ? "active" : "")">
+                                    <a class="page-link"
+                                    data-ajax-action="@Url.Action(nameof(ReportsController.GetNextPage), "Reports", new { page = pageIndex, pageSize = Model.Filter.PageSize })"
+                                    data-ajax-target="#allReports">@pageIndex</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(Model.Filter.Page >= Model.PagesCount ? "disabled" : "")">
+                                <a class="page-link"
+                                        data-ajax-action="@Url.Action(nameof(ReportsController.GetNextPage), "Reports", new { page = Model.NextPage, pageSize = Model.Filter.PageSize })"
+                                        data-ajax-target="#allReports">
+                                        @Localizer["Reports_PaginationNext"]
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+             }
+        </div>
+    }
+    else
+    {
+        <p>@Localizer["Reports_NoReports"]</p>
+    }
+</div>

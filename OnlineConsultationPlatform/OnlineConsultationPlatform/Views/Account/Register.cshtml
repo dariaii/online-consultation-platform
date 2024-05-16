@@ -1,0 +1,79 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = @Localizer["Account_Register"];
+    Layout = "_LayoutAnonymous";
+}
+
+<form asp-route-returnUrl="@Model.ReturnUrl" asp-action="@nameof(AccountController.Register)" method="post" class="form-wrap" autocomplete="off">
+    <div class="logo-box">
+        <img class="login-inedu-logo" src="~/images/inedu-logo.png" alt="InEdu Logo" />
+    </div>
+    <div class="form-title">
+        <h3 class="sub-title">@Localizer["Account_SignUp"]</h3>
+    </div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="mb-4">
+            @foreach (var error in ViewBag.Errors)
+            {
+                <span class="text-danger">@error</span>
+
+                <br />
+            }
+        </div>
+    }
+
+    <div class="input-box">
+        <label asp-for="@Model.FirstName" class="text-left">@Localizer["Account_FirstName"]</label>
+        <input asp-for="@Model.FirstName" type="text">
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </div>
+    <div class="input-box">
+        <label asp-for="@Model.LastName" class="text-left">@Localizer["Account_LastName"]</label>
+        <input asp-for="@Model.LastName" type="text">
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </div>
+    <div class="input-box">
+        <label asp-for="@Model.PhoneNumber" class="text-left">@Localizer["Account_PhoneNumber"]</label>
+        <input asp-for="@Model.PhoneNumber" type="text">
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="input-box">
+        <label asp-for="@Model.Email" class="text-left">@Localizer["Account_Email"]</label>
+        <input asp-for="@Model.Email" type="email">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="input-box">
+        <label asp-for="@Model.Password" class="text-left">@Localizer["Account_Password"]</label>
+        <input asp-for="@Model.Password" type="password">
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+    <div class="input-box">
+        <label asp-for="@Model.ConfirmPassword" class="text-left">@Localizer["Account_ConfirmPassword"]</label>
+        <input asp-for="@Model.ConfirmPassword" type="password">
+        <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div class="checkbox-wrap mb-4 text-left">
+        <label asp-for="@Model.IsMentor" class="text-left">
+            <input asp-for="@Model.IsMentor" type="checkbox" /> @Localizer["Account_IsMentor"]
+        </label>
+    </div>
+    <div class="input-box">
+        <div class="checkbox-wrap mb-4 text-left">
+            <label asp-for="HasAgreedWithTermsAndConditions" class="text-left">
+                <input asp-for="@Model.HasAgreedWithTermsAndConditions" type="checkbox"/> 
+
+                @Localizer["Account_AgreeWithTermsAndConditions"] 
+                <a asp-action="@nameof(StaticPagesController.TermsAndConditions)" asp-controller="StaticPages" target="_blank" class="link">
+                    @Localizer["TermsAndConditions_Link"]
+                </a>
+            </label>  
+        </div>
+        <span asp-validation-for="@Model.HasAgreedWithTermsAndConditions" class="text-danger text-left"></span>    
+    </div>
+
+    <button type="submit" class="btn login-btn">@Localizer["Account_Register"]</button>
+
+    <a asp-controller="Account" asp-action="@nameof(AccountController.Login)" class="btn login-btn mt-2">@Localizer["Account_BackToLogin"]</a>
+</form>

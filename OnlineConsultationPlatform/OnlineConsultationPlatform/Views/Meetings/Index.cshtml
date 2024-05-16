@@ -1,0 +1,12 @@
+﻿@model MeetingRequestViewModel
+@{
+    ViewData["Title"] = @Localizer["Meeting_BookAMeeting"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <div id="book-a-meeting" class="row">
+            <partial name="_MeetingRequestForm" model="Model" />
+        </div>
+    </div>
+</div>

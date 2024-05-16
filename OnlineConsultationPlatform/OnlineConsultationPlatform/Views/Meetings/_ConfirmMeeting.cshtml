@@ -1,0 +1,90 @@
+﻿@model Meeting
+@inject IUsersService UsersService
+
+<div>
+    @if (TempData["MessageFailure"] != null)
+    {
+        <div class="col-lg-12 text-danger">@TempData["MessageFailure"]</div>
+    }
+
+    @if (User.IsInRole(Roles.Mentor.ToString()))
+    {
+        <div class="show-details-form">
+            <form id="first-date-form">
+                <div class="row flex-wrap">
+                    <div class="col-8">
+                        <p><span>@Localizer["Meeting_DateOfMeeting"] </span><span class="fw-bold">@DateFormatService.ToDayMonthYear(Model.FirstDateOption)</span></p>
+                        <p><span>@Localizer["Meeting_TimeOfMeeting"] </span><span class="fw-bold">@DateFormatService.ToHourMinute(Model.FirstDateOption)</span></p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center">
+                        <button class="btn" type="submit"
+                            data-ajax-action="@Url.Action(nameof(MeetingsController.AcceptMeetingRequest), "Meetings", new { date = Model.FirstDateOption, meetingId = Model.Id })"
+                            data-ajax-target="#confirm-meeting"
+                            data-ajax-source="#first-date-form"
+                            data-ajax-method="POST"
+                            data-ajax-on-success="window.location.href='@Url.Action(nameof(MeetingsController.MeetingRequests))'">
+                            @Localizer["Requests_Accept"]
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="show-details-form">
+            <form id="second-date-form"> 
+                <div class="row flex-wrap">
+                    <div class="col-8">
+                        <p><span>@Localizer["Meeting_DateOfMeeting"] </span><span class="fw-bold">@DateFormatService.ToDayMonthYear(Model.SecondDateOption)</span></p>
+                        <p><span>@Localizer["Meeting_TimeOfMeeting"] </span><span class="fw-bold">@DateFormatService.ToHourMinute(Model.SecondDateOption)</span></p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center">
+                        <button class="btn" type="submit"
+                            data-ajax-action="@Url.Action(nameof(MeetingsController.AcceptMeetingRequest), "Meetings", new { date = Model.SecondDateOption, meetingId = Model.Id })"
+                            data-ajax-target="#confirm-meeting"
+                            data-ajax-source="#socond-date-form"
+                            data-ajax-on-success="window.location.href='@Url.Action(nameof(MeetingsController.MeetingRequests))'"
+                            data-ajax-method="POST">
+                            @Localizer["Requests_Accept"]
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="margin-top: 2rem">
+            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.DeclineMeetingRequest)">
+                <input type="hidden" name="meetingId" value="@Model.Id" />
+                <div>
+                    <button class="btn bg-gray2" type="submit">
+                        @Localizer["Requests_Decline"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+    @if (User.IsInRole(Roles.Admin.ToString()))
+    {
+        var mentors = UsersService.GetMentors();
+
+        <div class="mb-4">
+            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.AssignMentor)">
+                <input type="hidden" name="meetingId" value="@Model.Id" />
+
+                <div class="input-box col-6">
+                    <label for="mentorId">@Localizer["Requests_AssignMentor"]</label>
+                    <select name="mentorId">
+                        <option value="" selected disabled>@Localizer["Requests_AssignMentor"]</option>
+                        @foreach (var mentor in mentors)
+                        {
+                            <option value="@mentor.Id">@mentor.FirstName @mentor.LastName</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <button class="btn" type="submit">
+                        @Localizer["Requests_Assign"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+</div>

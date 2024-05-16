@@ -1,0 +1,44 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = Localizer["Admin_ActiveMentors"];
+}
+
+<div class="main-container">
+    <div class="w-100">
+        <div class="main-content-left">
+            <div class="page-title-wrap">
+                <div class="title-box">
+                    <h2>@Localizer["Admin_ActiveMentors"]</h2>
+                    <h3>@Localizer["Admin_UserInformation"]</h3>
+                </div>
+            </div>
+            <div class="mentor-updates-wrap">
+                <div class="row g-3">
+                    @foreach (var user in Model)
+                    {
+                        <div class="col-lg-6">
+                            <div class="mentor-update-item bg-green2">
+                                <div class="published-user-info d-flex justify-content-center row">
+                                    <div class="user-image-box col-xxl-4 col-xl-12 col-md-4">
+                                        @if (user.ProfilePicturePath != null)
+                                        {
+                                            <img src="~/profile-pictures/@user.ProfilePicturePath" alt="user image">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/profile-pictures/@Configuration["DefaultProfilePicture"]" alt="user image">
+                                        }
+                                    </div>
+                                    <div class="user-info-box col-xxl-8">
+                                        <p class="mentor-name-box">@user.FirstName @user.LastName</p>
+                                        <p class="mentor-email-box">@user.Email</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿@model MeetingsGridViewModel
+@{
+    ViewData["Title"] = Localizer["Requests_Requests"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        @if (TempData["RequestSuccess"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                <h3 class="m-0">
+                    @TempData["RequestSuccess"]
+                </h3>
+            </div>
+        }
+
+        <div class="page-title-wrap">
+            <div class="title-box">
+                <h2>@Localizer["Requests_Requests"]</h2>
+                <h3>@Localizer["Requests_PendingRequests"]</h3>
+            </div>
+        </div>
+        <div id="requests-list">
+            <partial name="_MeetingRequestsList" model="Model" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = Localizer["Account_Login"];
+    Layout = "_LayoutAnonymous";
+}
+
+<form class="form-wrap" id="account" asp-action="@nameof(AccountController.Login)" method="post" autocomplete="off">
+
+    <div class="logo-box">
+        <img class="login-inedu-logo" src="~/images/inedu-logo.png" alt="InEdu Logo" />
+    </div>
+    <div class="form-title">
+        <h3 class="sub-title">@Localizer["Account_Login"]</h3>
+    </div>
+    <div class="form-register-link-wrap">
+        <p>
+            @Localizer["Account_SignInPrompt"] <br> @Localizer["Account_NoProfile"]
+
+            <a asp-controller="Account" asp-action="@nameof(AccountController.Register)">@Localizer["Account_RegisterHere"]</a>
+        </p>
+    </div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="mb-4">
+            <span class="text-danger">@string.Join(", ", ViewBag.Errors)</span>
+        </div>
+    }
+    
+    <input type="hidden" asp-for="@Model.ReturnUrl" />
+
+    <div class="input-box">
+        <label asp-for="@Model.Email" class="text-left">@Localizer["Account_Email"]</label>
+        <input type="email" asp-for="@Model.Email">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+
+    <div class="input-box">
+        <label asp-for="@Model.Password" class="text-left">@Localizer["Account_Password"]</label>
+        <input type="password" asp-for="@Model.Password" />
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-chekc-wrap">
+        <div class="checkbox-wrap">
+            <label asp-for="@Model.RememberMe" class="text-left">
+                <input asp-for="@Model.RememberMe" type="checkbox" /> @Localizer["Account_RememberMe"]
+            </label>
+        </div>
+        <div class="forgotten-pass-wrap">
+            <a asp-action="@nameof(AccountController.ForgotPassword)" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Account_ForgotPassword"]</a>
+        </div>
+    </div>
+
+    <button type="submit" class="btn login-btn">@Localizer["Account_Login"]</button>
+
+</form>

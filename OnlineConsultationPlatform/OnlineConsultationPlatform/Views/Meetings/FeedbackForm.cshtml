@@ -1,0 +1,57 @@
+﻿@model FeedbackViewModel
+@{
+    ViewData["Title"] = Localizer["Feedback_FeedbackForm"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <div class="page-title-wrap">
+            <div class="title-box">
+                <h2>@Localizer["Feedback_FeedbackForm"]</h2>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" asp-action="@nameof(MeetingsController.LeaveFeedback)" asp-controller="Meetings">
+                <div class="leave-a-review-wrap mb-4">
+                    <h3>@Localizer["Feedback_LeaveRating"]</h3>
+                    <input type="hidden" asp-for="MeetingId" />
+
+                    <fieldset class="rating border border-dark p-3">
+                        <input type="radio" id="star5" name="rating" value="5" asp-for="Rating" />
+                        <label class="full" for="star5" title="Pretty good - 5 stars"></label>
+
+                        <input type="radio" id="star4" name="rating" value="4" asp-for="Rating" />
+                        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+
+                        <input type="radio" id="star3" name="rating" value="3" asp-for="Rating" />
+                        <label class="full" for="star3" title="Meh - 3 stars"></label>
+
+                        <input type="radio" id="star2" name="rating" value="2" asp-for="Rating" />
+                        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+
+                        <input type="radio" id="star1" name="rating" value="1" asp-for="Rating" />
+                        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                    </fieldset>
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+
+                <div class="col-xxl-4 col-xl-6">
+                    <h3>@Localizer["Feedback_LeaveFeedback"]</h3>
+
+                    <div class="input-box">
+                        <label asp-for="FeedbackSubject">@Localizer["Feedback_FeedbackSubject"]</label>
+                        <input asp-for="FeedbackSubject" type="text">
+                    </div>
+                    <div class="input-box">
+                        <label asp-for="FeedbackText">@Localizer["Feedback_FeedbackText"]</label>
+                        <textarea asp-for="FeedbackText" rows="4" cols="50"></textarea>
+                    </div>
+                </div>
+
+                <button class="btn" type="submit">
+                    @Localizer["Feedback_Submit"]
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

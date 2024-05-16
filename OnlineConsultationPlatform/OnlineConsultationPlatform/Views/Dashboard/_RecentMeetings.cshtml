@@ -1,0 +1,48 @@
+﻿@model List<Meeting>
+
+<div class="most-recent-meetings-wrap">
+    <h3>@Localizer["Dashboard_RecentMeetings"]</h3>
+    @if (Model?.Any() == true)
+    {
+        <div class="row g-3">
+            @foreach (var meeting in Model)
+            {
+                <div class="col-xl-6 col-xxl-4 col-md-12 col-12">
+                    <div class="sch-card-item sch-recent-item h-100">
+                        <div class="schedule-date-wrap">
+                            <div><span class="sch-current-date">@DateFormatService.ToDayMonth(meeting.MeetingDate)</span></div>
+                        </div>
+                        <div class="meeting-time">
+                            <span>@DateFormatService.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
+                        </div>
+                        <div class="mentor-name">
+                            <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>
+                        </div>
+                        <div class="booked-by">
+                            <span>@Localizer["Dashboard_MeetingBookedBy"] @meeting.User?.FirstName @meeting.User?.LastName</span>
+                        </div>
+                        @if (User.IsInRole(nameof(Roles.Teacher)))
+                        {
+                            if (meeting.Rating == null)
+                            {
+                                <div class="booked-by">
+                                    <a asp-action="@nameof(MeetingsController.GetFeedbackForm)" asp-controller="Meetings" asp-route-meetingId="@meeting.Id">
+                                        @Localizer["Dashboard_LeaveFeedback"]
+                                    </a>
+                                </div>
+                            }
+
+                            <div class="mentor-name">
+                                <span>@TempData[$"SubmittedFeedback{@meeting.Id}"]</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>@Localizer["Dashboard_NoRecentMeetings"]</p>
+    }
+</div>

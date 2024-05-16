@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = Localizer["Requests_RequestSuccessful"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <div class="page-title-wrap">
+            <div class="title-box">
+                <h2>@Localizer["Requests_RequestSuccessful"]</h2>
+                <h3>@Localizer["Requests_RequestSuccessfulMessage"]</h3>
+            </div>
+        </div>
+        <a class="btn" asp-controller="Meetings" asp-action="@nameof(MeetingsController.Index)">
+            <span>@Localizer["Requests_BookNewMeeting"]</span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/roboto/Boboto-bold.eot');
+    src: url('../../fonts/roboto/Roboto-Regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/roboto/Roboto-Regular.woff2') format('woff2'), url('../../fonts/Roboto/Roboto-Regular.woff') format('woff'), url('../../fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/roboto/Roboto-Bold.eot');
+    src: url('../../fonts/roboto/Roboto-Bold.eot?#iefix') format('embedded-opentype'), url('../../fonts/roboto/Roboto-Bold.woff2') format('woff2'), url('../../fonts/roboto/Roboto-Bold.woff') format('woff'), url('../../fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('../../fonts/icons/icomoon.ttf?rmrih5') format('truetype'), url('../../fonts/icons/icomoon.woff?rmrih5') format('woff'), url('../../fonts/icons/icomoon.svg?rmrih5#tollpass-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}

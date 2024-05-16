@@ -1,0 +1,71 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = @Localizer["Dashboard_NavigationLink"];
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <h2 class="main-title">@Localizer["Dashboard_HelloUser", @Model.User?.FirstName ?? ""]</h2>
+        <h3 class="sub-title">@Localizer["Dashboard_AllEventsLabel"]</h3>
+        <div class="schedule-wrap">
+            <partial name="_TodayMeetings" model="@Model.TodayMeetings" />
+
+            <partial name="_UpcomingMeetings" model="@Model.UpcomingMeetings" />
+
+            <div id="recent-meetings">
+                <partial name="_RecentMeetings" model="@Model.RecentMeetings" />
+            </div>
+        </div>
+        
+        <div class="col-lg-12 mt-5">
+            <div class="calendar-wrap col-lg-12 align-self-center">
+                <h3 class="mb-4">@Localizer["Meeting_CurrentAgenda"]</h3>
+                <div id="calendar-partial">
+                    <partial name="_Calendar" model="@Model.Calendar" />
+                </div>
+            </div>
+        </div>
+
+        @if (User.IsInRole(Roles.Teacher.ToString()))
+        {
+            <div class="mentor-updates-wrap">
+                <h3>@Localizer["Dashboard_MentorsYouveWorkedWith"]</h3>
+
+                @if (Model.Mentors.Any())
+                {
+                    <div class="row">
+                        @foreach (var mentor in Model.Mentors)
+                        {
+                            <div class="col-lg-6">
+                                <div class="mentor-update-item @(mentor.IsActive ? "bg-green2" : "bg-gray1")">
+                                    <div class="published-user-info d-flex justify-content-center row">
+                                        <div class="user-image-box col-xxl-4 col-xl-12 col-md-4">
+                                            @if (mentor.ProfilePicturePath != null)
+                                            {
+                                                <img src="~/profile-pictures/@mentor.ProfilePicturePath" alt="user image">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/profile-pictures/@Configuration["DefaultProfilePicture"]" alt="user image">
+                                            }
+                                        </div>
+                                        <div class="user-info-box col-xxl-8 col-xl-12 col-md-8">
+                                            <p class="mentor-name-box">@mentor.FirstName @mentor.LastName</p>
+                                            <p class="mentor-email-box">@mentor.Email</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>@Localizer["Dashboard_NoMentorsYouveWorkedWith"]</p>
+                }
+            </div>
+        }
+    </div>
+
+    @await Component.InvokeAsync("Profile")
+</div>

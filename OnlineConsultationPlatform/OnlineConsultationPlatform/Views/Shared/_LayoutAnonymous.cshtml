@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+
+    <title>@ViewData["Title"] - InEdu</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap.min.css" />
+
+    <link href="~/css/base.css" rel="stylesheet" />
+    <link href="~/css/font.css" rel="stylesheet" />
+    <link href="~/css/icon.css" rel="stylesheet" />
+    <link href="~/css/buttons.css" rel="stylesheet" />
+    <link href="~/css/layout.css" rel="stylesheet" />
+    <link href="~/css/header.css" rel="stylesheet" />
+    <link href="~/css/content.css" rel="stylesheet" />
+    <link href="~/css/form.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper-form">
+        <header class="header">
+            <div class="menu-logo-wrap">
+                <a href="/">
+                    <div class="hd-logo-wrap">
+                        <h1>inedu</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="lang-user-wrap">
+                <div class="user-wrap">
+                    <a href="/" class="nav-link">
+                        @Localizer["Sidebar_Home"]
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        @RenderBody()
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/air-datepicker/js/datepicker.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

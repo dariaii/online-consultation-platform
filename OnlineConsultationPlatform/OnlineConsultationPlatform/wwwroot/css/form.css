@@ -1,0 +1,94 @@
+﻿.input-box {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+    .input-box label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+input {
+    width: 100%;
+    border: 1px solid #8d8d8d;
+    padding: 1.6rem 1.4rem;
+    font-size: 1.7rem;
+    line-height: 1.6rem;
+    color: #000;
+    outline: none;
+}
+
+select {
+    width: 100%;
+    border: 1px solid #8d8d8d;
+    padding: 1.6rem 1.4rem;
+    font-size: 1.7rem;
+    line-height: 1.6rem;
+    color: #000;
+    outline: none;
+    background-color: #fff;
+}
+
+.checkbox-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .checkbox-wrap label {
+        font-size: 1.5rem;
+        color: #000;
+    }
+
+input[type="checkbox"] {
+    display: inline-block;
+    vertical-align: middle;
+    width: unset;
+    margin-right: 0.5rem;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid #8d8d8d;
+    padding: 1.6rem 1.4rem;
+    font-size: 1.7rem;
+    line-height: 1.6rem;
+    color: #000;
+    outline: none;
+}
+
+.text-danger {
+    font-size: 1.4rem;
+}
+
+.input-group {
+    position: relative;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+    .input-group label {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .input-group input {
+        width: 100% !important;
+        border: 1px solid #8d8d8d;
+        padding: 1.6rem 1.4rem;
+        font-size: 1.7rem;
+        line-height: 1.6rem;
+        color: #000;
+        outline: none;
+        background-color: transparent;
+    }
+
+        .input-group input:focus {
+            border-color: #8d8d8d;
+            box-shadow: none;
+        }
+
+.datepickers-container input {
+    border: none;
+}

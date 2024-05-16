@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    ViewData["Title"] = @Localizer["Account_Register"];
+    Layout = "_LayoutAnonymous";
+}
+
+<form class="form-wrap">
+    <div class="logo-box">
+        <img class="login-inedu-logo" src="~/images/inedu-logo.png" alt="InEdu Logo" />
+    </div>
+
+    <p>@Localizer["Account_EmailConfirmedMessage"]</p>
+
+    <a asp-controller="Account" asp-action="@nameof(AccountController.Login)" asp-route-returnUrl="@Model" class="btn login-btn">@Localizer["Account_Login"]</a>
+</form>

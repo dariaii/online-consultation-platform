@@ -1,0 +1,69 @@
+﻿@model UsersGridViewModel
+
+<div class="main-content-left">
+    <div class="page-title-wrap">
+        <div class="title-box">
+            <h2>@Localizer["Admin_Users"]</h2>
+            <h3>@Localizer["Admin_UserInformation"]</h3>
+        </div>
+    </div>
+    <div class="switch-wrap mb-5">
+        <h5>@Localizer["Admin_ShowDeactivatedAccounts"]</h5>
+        <label class="switch">
+            <input type="checkbox"
+                   data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredUsers), "Admin", new { showDeactivated = !Model.Filter.ShowDeactivated, page = 1, pageSize = Model.Filter.PageSize })"
+                   data-ajax-target="#allUsers" 
+                   @(Model.Filter.ShowDeactivated ? "checked" : "")>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div>
+        <div class="users-card-wrap">
+            <div class="row flex-wrap">
+                @if (Model.Data != null)
+                {
+                    foreach (var userCard in Model.Data)
+                    {
+                        if (userCard.User != null)
+                        {
+                            <div id="user-card-@userCard.User.Id" class="col-xl-6 col-xxl-3 mb-4">
+                                <partial name="_UserCard" model="userCard" />
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            @if (Model.PagesCount > 1)
+                    {
+                        <div class="pagination-wrap">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item @(Model.Filter.Page == 1 ? "disabled" : "")">
+                                        <a class="page-link"
+                                            data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredUsers), "Admin", new { ShowDeactivated = Model.Filter.ShowDeactivated, page = Model.PreviousPage, pageSize = Model.Filter.PageSize })"
+                                            data-ajax-target="#allUsers">@Localizer["Reports_PaginationPrevious"]</a>
+                                    </li>
+
+                                    @for (int pageIndex = 1; pageIndex <= Model.PagesCount; pageIndex++)
+                                    {
+                                        <li class="page-item @(pageIndex == Model.Filter.Page ? "active" : "")">
+                                            <a class="page-link"
+                                            data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredUsers), "Admin", new { ShowDeactivated = Model.Filter.ShowDeactivated, page = pageIndex, pageSize = Model.Filter.PageSize })"
+                                            data-ajax-target="#allUsers">@pageIndex</a>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(Model.Filter.Page >= Model.PagesCount ? "disabled" : "")">
+                                        <a class="page-link"
+                                             data-ajax-action="@Url.Action(nameof(AdminController.GetFilteredUsers), "Admin", new { ShowDeactivated = Model.Filter.ShowDeactivated, page = Model.NextPage, pageSize = Model.Filter.PageSize })"
+                                             data-ajax-target="#allUsers">
+                                             @Localizer["Reports_PaginationNext"]
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+        </div>
+    </div>
+</div>

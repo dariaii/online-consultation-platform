@@ -1,0 +1,122 @@
+﻿@model CalendarViewModel
+
+@{
+    int index = 0;
+}
+
+<div class="calendar-box border border-dark">
+    <div class="calendar-info-wrap">
+        <div class="row justify-content-between">
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="calendar-currentday-wrap">
+                    <span>@Localizer["Dashboard_Today"]: @DateFormatService.ToDayMonthYear(DateTime.Now)</span>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-12">
+                <div class="calendar-year-wrap">
+
+                    <a class="left-arrow"
+                       data-ajax-action="@Url.Action(nameof(DashboardController.Calendar), "Dashboard", new { date = Model.Date.AddMonths(-1) })"
+                       data-ajax-target="#calendar-partial">
+                        <span class="fa fa-chevron-left"></span>
+                    </a>
+
+                    <div class="fs-3 color-blue1">@DateFormatService.ToMonthYear(Model.Date)</div>
+
+                    <a class="right-arrow"
+                       data-ajax-action="@Url.Action(nameof(DashboardController.Calendar), "Dashboard", new { date = Model.Date.AddMonths(1) })"
+                       data-ajax-target="#calendar-partial">
+                        <span class="fa fa-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="calendar-weekday-wrap">
+    @for (int day = 1; day <= 7; day++)
+    {
+        <div class="weekday-box">
+            @($"{System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName((DayOfWeek)(day % 7))} ".Substring(0, 3))
+        </div>
+    }
+</div>
+
+<div class="calendar-items-wrap">
+
+    @{
+        if (Model.EndOfPreviousMonth.DayOfWeek != DayOfWeek.Sunday)
+        {
+            for (var day = Model.StartOfLastWeekInPreviousMonth.Day; day <= Model.EndOfPreviousMonth.Day; day++)
+            {
+                index++;
+                        <div class="calendar-item"></div>
+            }
+        }
+
+        for (int day = 1; day <= DateTime.DaysInMonth(Model.Date.Year, Model.Date.Month); day++)
+        {
+            index++;
+
+            var date = new DateTime(Model.Date.Year, Model.Date.Month, day);
+
+                    <div class="calendar-item">
+                        <span class="current-day">@date.Day</span>
+
+                        @foreach (var meeting in Model.Meetings.Where(x => x.MeetingDate != null && x.MeetingDate.Value.Day == index))
+                {
+                            <div class="calendar-meeting-box">
+                                <div class="meeting-time">
+                                    <span>@DateFormatService.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
+                                </div>
+                                <div class="person-name">
+                                    <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>
+                                </div>
+                            </div>
+                }
+
+                        @foreach (var meeting in Model.Meetings.Where(x => x.MeetingDate == null && x.FirstDateOption.Day == index))
+                {
+                            <div class="calendar-meeting-box bg-gray2">
+                                <div class="meeting-time">
+                                    <span>@DateFormatService.ToHourMinute(meeting.FirstDateOption) @Localizer["Dashboard_Meeting"]</span>
+                                </div>
+                                <div class="person-name">
+                                    <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>
+                                </div>
+                            </div>
+                }
+
+                        @foreach (var meeting in Model.Meetings.Where(x => x.MeetingDate == null && x.SecondDateOption.Day == index))
+                {
+                            <div class="calendar-meeting-box bg-gray2">
+                                <div class="meeting-time">
+                                    <span>@DateFormatService.ToHourMinute(meeting.SecondDateOption) @Localizer["Dashboard_Meeting"]</span>
+                                </div>
+                                <div class="person-name">
+                                    <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>
+                                </div>
+                            </div>
+                }
+
+                    </div>
+        }
+
+        if (Model.EndOfCurrentMonth.DayOfWeek != DayOfWeek.Sunday)
+        {
+            var remaningDayCounter = 0;
+
+            for (int day = (int)Model.EndOfCurrentMonth.DayOfWeek; day < 7; day++)
+            {
+                index++;
+                remaningDayCounter++;
+
+                        <div class="calendar-item"></div>
+            }
+        }
+    }
+
+</div>

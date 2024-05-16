@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = Localizer["TermsAndConditions_Title"];
+     if (!User.Identity.IsAuthenticated)
+    {
+        Layout = "_LayoutAnonymous";
+    }
+}
+
+<div class="main-container">
+    <div class="main-content-left">
+        <div class="page-title-wrap">
+            <div class="title-box">
+                <h2>@Localizer["TermsAndConditions_Title"]</h2>
+            </div>
+        </div></>
+
+        <div class="col-xl-12">
+            @Html.Raw(Localizer["TermsAndConditions_Text"])
+        </div>        
+    </div>
+</div>
