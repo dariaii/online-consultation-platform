@@ -1,5 +1,5 @@
 ﻿.wrapper {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -13,7 +13,6 @@
 .main-layout {
     display: flex;
     flex-grow: 1;
-    margin-top: 100px;
 }
 
 .main-sidebar {
@@ -26,26 +25,17 @@
     box-shadow: 1px 0 13px -2px #bfb9b9;
     background-color: #fff;
     overflow-x: hidden;
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px)
 }
 
 @media (max-width: 991px) {
     .main-sidebar {
         z-index: 1000;
-        width: 100%;
-        height: 100%;
         position: fixed;
-        top: 88px;
-        left: 0;
-        padding-bottom: 100px;
+        max-width: 100%;
     }
-
-        .main-sidebar img {
-            display: none;
-        }
-
-        .main-sidebar .nav-wrap {
-            margin-top: 0;
-        }
 }
 
 .main-sidebar h2 {

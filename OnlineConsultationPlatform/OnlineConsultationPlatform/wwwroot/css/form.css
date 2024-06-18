@@ -41,7 +41,7 @@ select {
         color: #000;
     }
 
-input[type="checkbox"] {
+input[type=checkbox] {
     display: inline-block;
     vertical-align: middle;
     width: unset;

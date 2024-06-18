@@ -368,14 +368,12 @@
                 .mentor-updates-wrap .mentor-update-item .published-user-info .user-info-box .mentor-name-box {
                     margin-bottom: 0.3rem;
                     color: #000;
-                    font-size: 1.1rem;
                     font-weight: 700;
                 }
 
                 .mentor-updates-wrap .mentor-update-item .published-user-info .user-info-box .mentor-email-box {
                     margin-bottom: 0;
                     color: #205276;
-                    font-size: 1.1rem;
                 }
 
 .page-title-wrap {
@@ -456,10 +454,6 @@
 
 .inner-form {
     margin-bottom: 3rem;
-}
-
-.user-card .user-info {
-    overflow: hidden;
 }
 
 .user-card .user-image-box {
@@ -564,7 +558,7 @@
     color: #8d8d8d;
 }
 
-.rating > [id^="star"] {
+.rating > [id^=star] {
     display: none;
 }
 
@@ -585,16 +579,19 @@
     color: #ddd;
     float: right;
 }
+
 /***** CSS Magic to Highlight Stars on Hover *****/
-.rating > [id^="star"]:checked ~ label, .rating:not(:checked) > label:hover, .rating:not(:checked) > label:hover ~ label {
-    /* show gold star when clicked */
-    /* hover current star */
+.rating > [id^=star]:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
     color: #8d8d8d;
 }
+
     /* hover previous stars in list */
-    .rating > [id^="star"]:checked + label:hover, .rating > [id^="star"]:checked ~ label:hover, .rating > label:hover ~ [id^="star"]:checked ~ label, .rating > [id^="star"]:checked ~ label:hover ~ label {
-        /* hover current star when changing rating */
-        /* lighten current selection */
+    .rating > [id^=star]:checked + label:hover,
+    .rating > [id^=star]:checked ~ label:hover,
+    .rating > label:hover ~ [id^=star]:checked ~ label,
+    .rating > [id^=star]:checked ~ label:hover ~ label {
         color: #205276;
     }
 
