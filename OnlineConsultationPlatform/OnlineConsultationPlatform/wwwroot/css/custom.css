@@ -34,13 +34,6 @@ select:disabled {
     background-color: #f2f2f2;
 }
 
-.help-list-options {
-    list-style-type: disc;
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-    margin-left: 4rem;
-}
-
 .calendar-wrap {
     width: unset;
 }
@@ -175,10 +168,6 @@ ul li {
 
 ol li {
     list-style: decimal;
-}
-
-ul.language-selector li {
-    list-style: none;
 }
 
 .main-sidebar ul li {

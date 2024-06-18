@@ -6,7 +6,88 @@
 <div class="main-container">
     <div class="main-content-left">
         <div id="book-a-meeting" class="row">
-            <partial name="_MeetingRequestForm" model="Model" />
+            @if (TempData["UnsuccessfulBookAMeeting"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <h3 class="m-0">
+                        @TempData["UnsuccessfulBookAMeeting"]
+                    </h3>
+                </div>
+            }
+
+            <div class="page-title-wrap">
+                <div class="title-box">
+                    <h2>@Localizer["Meeting_BookAMeeting"]</h2>
+                    <h3>@Localizer["Meeting_PickTimeMessage"]</h3>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <form method="post" asp-action="@nameof(MeetingsController.CreateMeetingRequest)">
+
+                    <div class="row mt-3">
+                        <div class="input-group">
+                            <label asp-for="FirstDateOption">@Localizer["Meeting_FirstOption"]</label>
+                            <input asp-for="FirstDateOption" value="" type="datetime" class="form-control air-datepicker air-datepicker-meeting w-100" autocomplete="off" />
+                            <span asp-validation-for="FirstDateOption" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-group">
+                            <label asp-for="SecondDateOption">@Localizer["Meeting_SecondOption"]</label>
+                            <input asp-for="SecondDateOption" value="" type="datetime" class="form-control air-datepicker air-datepicker-meeting w-100" autocomplete="off" />
+                            <span asp-validation-for="SecondDateOption" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-box">
+                            <label asp-for="Subject">@Localizer["Meeting_Subject"]</label>
+                            <input asp-for="Subject" type="text">
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-box">
+                            <label asp-for="FirstQuestion">@Localizer["Meeting_FirstQuestion"]</label>
+                            <textarea asp-for="FirstQuestion" rows="2" cols="50"></textarea>
+                            <span asp-validation-for="FirstQuestion" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-box">
+                            <label asp-for="SecondQuestion">@Localizer["Meeting_SecondQuestion"]</label>
+                            <textarea asp-for="SecondQuestion" rows="2" cols="50"></textarea>
+                            <span asp-validation-for="SecondQuestion" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <label asp-for="ThirdQuestion">@Localizer["Meeting_ThirdQuestion"]</label>
+                            <textarea asp-for="ThirdQuestion" rows="2" cols="50"></textarea>
+                            <span asp-validation-for="ThirdQuestion" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <label asp-for="ExtraInformation">@Localizer["Meeting_ExtraInformation"]</label>
+                            <textarea asp-for="ExtraInformation" rows="4" cols="50"></textarea>
+                        </div>
+                        <div class="input-box">
+                            <label asp-for="ChosenMentorId">@Localizer["Meeting_ChooseMentor"]</label>
+                            <select asp-for="ChosenMentorId">
+                                <option value="" selected disabled>@Localizer["Meeting_ChooseMentor"]</option>
+                                <option value="">@Localizer["Meeting_NoMentor"]</option>
+                                @if (Model.Mentors.Any())
+                                {
+                                    foreach (var mentor in Model.Mentors)
+                                    {
+                                        <option value="@mentor.Id">@mentor.FirstName @mentor.LastName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pick-btn-wrap mb-4 mt-1">
+                        <button class="btn" type="submit">
+                            <span class="fa fa-check"></span>
+                            @Localizer["Meeting_Send"]
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

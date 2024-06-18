@@ -1,7 +1,6 @@
 ﻿@model OfflineReportsViewModel
 @{
     ViewData["Title"] = @Localizer["Reports_Reports"];
-    var datapickerLang = Localizer["Global_LanguageEditionShortLower"];
 }
 
 <div class="main-container">
@@ -17,13 +16,13 @@
                 <div class="col-xl-4">
                     <div class="input-group">
                         <label asp-for="MeetingDate">@Localizer["Reports_MeetingDate"]</label>
-                        <input asp-for="MeetingDate" value="" type="datetime" class="form-control air-datepicker-report w-100" autocomplete="off" />
+                        <input asp-for="MeetingDate" value="" type="datetime" class="form-control air-datepicker air-datepicker-report w-100" autocomplete="off" />
                         <span asp-validation-for="MeetingDate" class="text-danger"></span>
                     </div>
                     <div class="input-box">
-                        <label asp-for="TeacherName">@Localizer["Reports_TeacherName"]</label>
-                        <input asp-for="TeacherName" type="text">
-                        <span asp-validation-for="TeacherName" class="text-danger"></span>
+                        <label asp-for="StudentName">@Localizer["Reports_StudentName"]</label>
+                        <input asp-for="StudentName" type="text">
+                        <span asp-validation-for="StudentName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-xl-4">
@@ -35,7 +34,7 @@
                 </div>
 
                 <button class="upload-btn" type="submit">
-                    <span class="icon-upload"></span>
+                    <span class="fa-solid fa-cloud-arrow-up"></span>
                     @Localizer["Reports_UploadItem"]
                 </button>
             </form>

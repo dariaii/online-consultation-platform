@@ -29,9 +29,6 @@
                     <div class="person-name">
                         <span>@Model.FirstName @Model.LastName</span>
                     </div>
-                    <div class="person-email">
-                        <span>@Model.Email</span>
-                    </div>
 
                     <form asp-action="@nameof(ProfileController.UpdateAvatar)" method="post" enctype="multipart/form-data">
                         <div class="input-box">
@@ -39,7 +36,7 @@
                             <input type="file" id="file" name="file">
                         </div>
                         <button class="upload-btn">
-                            <span class="icon-upload"></span>
+                            <span class="fa-solid fa-cloud-arrow-up"></span>
                             @Localizer["Profile_UploadAvatar"]
                         </button>
                     </form>

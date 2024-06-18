@@ -3,7 +3,7 @@
 <div class="today-wrap">
     <div class="schedule-date-wrap">
         <div>
-            <h3>@Localizer["Dashboard_Today"] @DateFormatService.ToDayMonthYear(DateTime.Now)</h3>
+            <h3>@Localizer["Dashboard_Today"] @DateTimeExtensions.ToDayMonthYear(DateTime.Now)</h3>
         </div>
     </div>
     <div class="row">
@@ -14,7 +14,7 @@
                 <div class="col-xl-6 col-xxl-4">
                     <div class="sch-card-item sch-today-item mb-3">
                         <div class="meeting-time">
-                            <span>@DateFormatService.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
+                            <span>@DateTimeExtensions.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
                         </div>
                         <div class="mentor-name">
                             <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>

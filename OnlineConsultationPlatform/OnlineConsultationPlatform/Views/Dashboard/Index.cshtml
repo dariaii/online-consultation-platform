@@ -16,17 +16,40 @@
                 <partial name="_RecentMeetings" model="@Model.RecentMeetings" />
             </div>
         </div>
-        
+
         <div class="col-lg-12 mt-5">
-            <div class="calendar-wrap col-lg-12 align-self-center">
-                <h3 class="mb-4">@Localizer["Meeting_CurrentAgenda"]</h3>
+            <h3 class="mb-4">@Localizer["Meeting_CurrentAgenda"]</h3>
+
+            <div class="calendar-wrap col-lg-12 align-self-center border border-dark">
+                <div class="calendar-box">
+                    <div class="calendar-info-wrap">
+                        <div class="row justify-content-between">
+                            <div class="calendar-year-wrap calendar-controls">
+                                <a onclick="updateCalendar(-1)">
+                                    <span class="fa fa-chevron-left"></span>
+                                </a>
+
+                                <a onclick="updateCalendar(null)">
+                                    <div class="calendar-currentday-wrap">
+                                        <span>@Localizer["Dashboard_Today"]: @DateTimeExtensions.ToDayMonthYear(DateTime.Now)</span>
+                                    </div>
+                                </a>
+
+                                <a onclick="updateCalendar(1)">
+                                    <span class="fa fa-chevron-right"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="calendar-partial">
                     <partial name="_Calendar" model="@Model.Calendar" />
                 </div>
             </div>
         </div>
 
-        @if (User.IsInRole(Roles.Teacher.ToString()))
+        @if (User.IsInRole(Roles.Student.ToString()))
         {
             <div class="mentor-updates-wrap">
                 <h3>@Localizer["Dashboard_MentorsYouveWorkedWith"]</h3>
@@ -66,6 +89,38 @@
             </div>
         }
     </div>
-
-    @await Component.InvokeAsync("Profile")
 </div>
+
+<script>
+    var month = @Model.Calendar.Date.Month;
+    var year = @Model.Calendar.Date.Year;
+
+    function updateCalendar(direction) {
+        var date;
+
+        if (!direction) {
+            date = (new Date()).toUTCString();
+        }
+        else {
+            month += direction;
+            if (month < 1) {
+                month = 12;
+                year--;
+            } else if (month > 12) {
+                month = 1;
+                year++;
+            }
+
+            date = new Date(year, month).toUTCString();
+        }
+
+        $.ajax({
+            url: '@Url.Action(nameof(DashboardController.Calendar), "Dashboard")',
+            type: 'GET',
+            data: { date },
+            success: function (data) {
+                $('#calendar-partial').html(data);
+            }
+        });
+    }
+</script>

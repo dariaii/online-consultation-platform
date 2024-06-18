@@ -4,13 +4,14 @@
     <div class="menu-logo-wrap">
         <div class="hamburger-menu-wrap">
             <a class="sidebar-toggle">
-                <span class="icon-menu"></span>
+                <span class="fa-solid fa-bars"></span>
             </a>
         </div>
-        <div class="hd-logo-wrap">                  
-            <a href="/"><h1>inedu</h1></a>
+        <div class="hd-logo-wrap">
+            <a href="/"><h1>OCP</h1></a>
         </div>
     </div>
+
     <div class="lang-user-wrap">
         <div class="user-wrap">
             <div class="user-image-box">
@@ -26,6 +27,11 @@
                 </a>
             </div>
         </div>
+
+        <div class="logout-wrap">
+            <a asp-controller="Account" asp-action="@nameof(AccountController.Logout)" title="Logout">
+                <span class="fa-solid fa-right-from-bracket"></span>
+            </a>
+        </div>
     </div>
 </header>
-

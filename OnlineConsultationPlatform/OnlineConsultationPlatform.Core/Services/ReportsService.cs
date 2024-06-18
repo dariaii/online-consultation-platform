@@ -1,6 +1,8 @@
 ﻿using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
+using OnlineConsultationPlatform.Core.Infrastructure.Enums;
+using OnlineConsultationPlatform.Core.Infrastructure.Extensions;
 using OnlineConsultationPlatform.Data.Entities;
 using OnlineConsultationPlatform.Data.Repository;
 
@@ -10,7 +12,7 @@ namespace OnlineConsultationPlatform.Core.Services
     {
         List<Report> GetReports(out int totalRecordsCount, int? page = null, int? pageSize = null);
 
-        bool SaveReport(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? teacherName = null);
+        bool SaveReport(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? studentName = null);
     }
 
     public class ReportsService(
@@ -32,7 +34,12 @@ namespace OnlineConsultationPlatform.Core.Services
 
         public List<Report> GetReports(out int totalRecordsCount, int? page = null, int? pageSize = null)
         {
-            var query = _repository.SetNoTracking<Report>(nameof(Report.User), nameof(Report.Meeting)).Where(x => x.UserId == _currentUser.Id);
+            var query = _repository.SetNoTracking<Report>(nameof(Report.User), nameof(Report.Meeting));
+
+            if (_authenticationService.IsUserInRole(Roles.Mentor))
+            {
+                query = query.Where(x => x.UserId == _currentUser.Id);
+            }
 
             query = query.OrderBy(x => x.UploadDate).AsQueryable();
 
@@ -46,9 +53,9 @@ namespace OnlineConsultationPlatform.Core.Services
             return query.ToList();
         }
 
-        public bool SaveReport(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? teacherName = null)
+        public bool SaveReport(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? studentName = null)
         {
-            string fileName = GenerateFileName(file, meetingId, meetingDate, teacherName);
+            string fileName = GenerateFileName(file, meetingId, meetingDate, studentName);
 
             if (_fileService.UploadReportFile(file, fileName).Result)
             {
@@ -70,7 +77,7 @@ namespace OnlineConsultationPlatform.Core.Services
             return false;
         }
 
-        string GenerateFileName(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? teacherName = null)
+        string GenerateFileName(IFormFile? file, Guid? meetingId, DateTime? meetingDate = null, string? studentName = null)
         {
             if (meetingId != null)
             {
@@ -79,10 +86,10 @@ namespace OnlineConsultationPlatform.Core.Services
                 return
                      $"{meeting?.MeetingDate.ToDayMonthYearNumbersOnly()}-{meeting?.User?.FirstName}-{meeting?.User?.LastName}{Path.GetExtension(file.FileName)}";
             }
-            else if (meetingDate != null && teacherName != null)
+            else if (meetingDate != null && studentName != null)
             {
                 return
-                    $"{meetingDate.ToDayMonthYearNumbersOnly()}-{teacherName.Replace(" ", "-")}{Path.GetExtension(file.FileName)}";
+                    $"{meetingDate.ToDayMonthYearNumbersOnly()}-{studentName.Replace(" ", "-")}{Path.GetExtension(file.FileName)}";
             }
 
             return null;

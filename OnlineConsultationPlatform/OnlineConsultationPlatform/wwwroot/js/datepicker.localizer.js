@@ -13,9 +13,13 @@
     };
 })(jQuery);
 
-//$('.air-datepicker').datepicker({
-//    autoClose: true,
-//    language: 'current',
-//    dateFormat: 'dd/mm/yyyy',
-//    today: 'Today',
-//});
+$('.air-datepicker').datepicker({
+    autoClose: true,
+    language: 'current',
+    dateFormat: 'dd/mm/yyyy',
+    today: 'Today',
+    language: 'bg',
+    timepicker: true,
+    minutesStep: 15,
+    minDate: new Date(new Date().setMinutes(0))
+});

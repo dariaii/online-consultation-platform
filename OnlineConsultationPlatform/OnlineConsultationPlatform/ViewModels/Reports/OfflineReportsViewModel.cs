@@ -8,7 +8,7 @@ namespace OnlineConsultationPlatform.ViewModels
         public DateTime? MeetingDate { get; set; }
 
         [Required(ErrorMessage = "Message_RequiredField")]
-        public string? TeacherName { get; set; }
+        public string? StudentName { get; set; }
 
         [Required(ErrorMessage = "Message_RequiredField")]
         public IFormFile? ReportFile { get; set; }

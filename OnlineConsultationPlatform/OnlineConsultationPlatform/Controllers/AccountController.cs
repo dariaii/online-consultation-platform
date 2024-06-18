@@ -71,7 +71,6 @@ namespace OnlineConsultationPlatform.Controllers
                         model.Email,
                         model.Password,
                         model.IsMentor,
-                        model.HasAgreedWithTermsAndConditions,
                         model.ReturnUrl);
 
                 if (result.Succeeded)

@@ -5,16 +5,17 @@ using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
 using System.Web;
 using OnlineConsultationPlatform.Core.Infrastructure.Enums;
+using OnlineConsultationPlatform.Core.Infrastructure.Extensions;
 
 namespace OnlineConsultationPlatform.Core.Services
 {
     public interface IMeetingService
     {
         List<Meeting> GetMeetings(
-            out int totalRecordsCount, 
+            out int totalRecordsCount,
             int? page = null,
-            int? pageSize = null, 
-            bool hasAssignedMentor = false, 
+            int? pageSize = null,
+            bool hasAssignedMentor = false,
             bool showUnconfirmed = false,
             bool sortByAsc = true);
 
@@ -85,7 +86,7 @@ namespace OnlineConsultationPlatform.Core.Services
             bool sortByAsc = true)
         {
             IQueryable<Meeting> meetings =
-                _authenticationService.IsUserInRole(Roles.Admin) ? FindMeetingsForAdmin() : FindMeetingsForMentorOrTeacher();
+                _authenticationService.IsUserInRole(Roles.Admin) ? FindMeetingsForAdmin() : FindMeetingsForMentorOrStudent();
 
             if (hasAssignedMentor)
             {
@@ -97,7 +98,7 @@ namespace OnlineConsultationPlatform.Core.Services
                 meetings = meetings.Where(x => x.MeetingDate != null);
             }
 
-            meetings = sortByAsc? meetings.OrderBy(x => x.MeetingDate).AsQueryable() : meetings.OrderByDescending(x => x.MeetingDate).AsQueryable();
+            meetings = sortByAsc ? meetings.OrderBy(x => x.MeetingDate).AsQueryable() : meetings.OrderByDescending(x => x.MeetingDate).AsQueryable();
 
             totalRecordsCount = meetings.Count();
 
@@ -121,7 +122,7 @@ namespace OnlineConsultationPlatform.Core.Services
             return meetings;
         }
 
-        IQueryable<Meeting> FindMeetingsForMentorOrTeacher()
+        IQueryable<Meeting> FindMeetingsForMentorOrStudent()
         {
             var firstDayFromInterval = DateTime.Now.AddDays(-DEFAULT_DAYS_INTERVAL);
             var lastDayFromInterval = DateTime.Now.AddDays(DEFAULT_DAYS_INTERVAL);
@@ -138,11 +139,11 @@ namespace OnlineConsultationPlatform.Core.Services
         Expression<Func<T, bool>> WithIntervalsPredicate<T>(DateTime firstDayFromInterval, DateTime lastDayFromInterval) where T : Meeting
         {
             return
-                x => 
+                x =>
                     (x.MeetingDate > firstDayFromInterval && x.MeetingDate < lastDayFromInterval)
-                    || 
+                    ||
                     (x.FirstDateOption > firstDayFromInterval && x.FirstDateOption < lastDayFromInterval)
-                    || 
+                    ||
                     (x.SecondDateOption > firstDayFromInterval && x.SecondDateOption < lastDayFromInterval);
         }
 
@@ -152,6 +153,7 @@ namespace OnlineConsultationPlatform.Core.Services
                 _repository
                     .SetNoTracking<Meeting>(nameof(Meeting.User), nameof(Meeting.Reports))
                     .Where(x => x.MentorId == _currentUser.Id && x.MeetingDate != null && x.Reports.Count == 0)
+                    .OrderBy(x => x.MeetingDate)
                     .ToList();
         }
 
@@ -185,12 +187,12 @@ namespace OnlineConsultationPlatform.Core.Services
                     .Where(x =>
                         (x.UserId == _currentUser.Id || x.MentorId == _currentUser.Id)
                         && !x.IsDeclined
-                        && 
+                        &&
                         (
                             (x.MeetingDate.HasValue && x.MeetingDate.Value.Month == month)
-                            || 
+                            ||
                             x.FirstDateOption.Month == month
-                            || 
+                            ||
                             x.SecondDateOption.Month == month
                         ))
                     .ToList();
@@ -211,7 +213,7 @@ namespace OnlineConsultationPlatform.Core.Services
             {
                 return false;
             }
-            
+
             var newMeeting = new Meeting
             {
                 UserId = _authenticationService.CurrentUser()?.Id,
@@ -246,7 +248,7 @@ namespace OnlineConsultationPlatform.Core.Services
             {
                 query = query.Where(x => x.MentorId == null);
             }
-            else 
+            else
             {
                 query = query.Where(x => x.MentorId == _currentUser.Id);
             }
@@ -322,13 +324,19 @@ namespace OnlineConsultationPlatform.Core.Services
         {
             var meetings = _repository
                .SetNoTracking<Meeting>()
-               .Where(m => 
-                   m.MentorId == mentorId 
-                   && 
-                   (
-                        m.MeetingDate == firstDateOption || m.MeetingDate == secondDateOption                                                    
-                        || m.FirstDateOption == firstDateOption || m.FirstDateOption == secondDateOption                                                    
-                        || m.SecondDateOption == firstDateOption || m.SecondDateOption == secondDateOption)
+               .Where(m =>
+                       m.MentorId == mentorId
+                       &&
+                       (
+                            m.MeetingDate == null
+                            ? (
+                                m.FirstDateOption == firstDateOption || m.FirstDateOption == secondDateOption
+                                || m.SecondDateOption == firstDateOption || m.SecondDateOption == secondDateOption
+                            )
+                            : (
+                                m.MeetingDate == firstDateOption || m.MeetingDate == secondDateOption
+                            )
+                       )
                     )
                .ToList();
 
@@ -354,7 +362,7 @@ namespace OnlineConsultationPlatform.Core.Services
                 recievers.Add(_authenticationService.GetUserById(mentorId).Email);
             }
 
-            if(!isAssignedByAdminUser)
+            if (!isAssignedByAdminUser)
             {
                 recievers.AddRange(_authenticationService.GetAdminUsersForEmailNotifications());
             }

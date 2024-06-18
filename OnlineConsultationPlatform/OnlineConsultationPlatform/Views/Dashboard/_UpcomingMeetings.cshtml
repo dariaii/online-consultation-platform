@@ -10,10 +10,10 @@
                 <div class="col-xl-6 col-xxl-4">
                     <div class="sch-card-item sch-upcoming-item mb-3">
                         <div class="schedule-date-wrap">
-                            <div><span class="sch-current-date">@DateFormatService.ToDayMonth(meeting.MeetingDate)</span></div>
+                            <div><span class="sch-current-date">@DateTimeExtensions.ToDayMonth(meeting.MeetingDate)</span></div>
                         </div>
                         <div class="meeting-time">
-                            <span>@DateFormatService.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
+                            <span>@DateTimeExtensions.ToHourMinute(meeting.MeetingDate) @Localizer["Dashboard_Meeting"]</span>
                         </div>
                         <div class="mentor-name">
                             <span>@Localizer["Dashboard_MeetingWith"] @meeting.Mentor?.FirstName @meeting.Mentor?.LastName</span>

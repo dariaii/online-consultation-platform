@@ -20,8 +20,91 @@
                 <h3>@Localizer["Requests_PendingRequests"]</h3>
             </div>
         </div>
+
         <div id="requests-list">
-            <partial name="_MeetingRequestsList" model="Model" />
+            <div class="row">
+                @if (Model.Data.Any())
+                {
+                    <div class="col-12">
+                        <div class="table-responsive table-wrap">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>@Localizer["Requests_Subject"]</th>
+                                        <th>@Localizer["Requests_Name"]</th>
+                                        <th>@Localizer["Requests_Email"]</th>
+                                        <th>@Localizer["Requests_FirstDateOption"]</th>
+                                        <th>@Localizer["Requests_SecondDateOption"]</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var meeting in Model.Data)
+                                    {
+                                        <tr>
+                                            <td>@meeting.Subject</td>
+                                            <td>@meeting.User?.FirstName @meeting.User?.LastName</td>
+                                            <td>@meeting.User?.Email</td>
+                                            <td>@meeting.FirstDateOption</td>
+                                            <td>@meeting.SecondDateOption</td>
+                                            <td>
+                                                <a class="btn" asp-controller="Meetings" asp-action="@nameof(MeetingsController.ShowMeetingRequestDetails)" asp-route-meetingId="@meeting.Id">
+                                                    @Localizer["Requests_ShowDetails"]
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @if (Model.PagesCount > 1)
+                        {
+                            <div class="pagination-wrap">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li class="page-item @(Model.Filter.Page == 1 ? "disabled" : "")">
+                                            <a class="page-link @(Model.Filter.Page == 1 ? "bg-gray1" : "")"
+                                               asp-controller="Meetings"
+                                               asp-action="@nameof(MeetingsController.MeetingRequests)"
+                                               asp-route-page="@Model.PreviousPage"
+                                               asp-route-pageSize="@Model.Filter.PageSize">
+                                                @Localizer["Reports_PaginationPrevious"]
+                                            </a>
+                                        </li>
+
+                                        @for (int pageIndex = 1; pageIndex <= Model.PagesCount; pageIndex++)
+                                        {
+                                            <li class="page-item @(pageIndex == Model.Filter.Page ? "active" : "")">
+                                                <a class="page-link"
+                                                   asp-controller="Meetings"
+                                                   asp-action="@nameof(MeetingsController.MeetingRequests)"
+                                                   asp-route-page="@pageIndex"
+                                                   asp-route-pageSize="@Model.Filter.PageSize">
+                                                    @pageIndex
+                                                </a>
+                                            </li>
+                                        }
+
+                                        <li class="page-item @(Model.Filter.Page >= Model.PagesCount ? "disabled" : "")">
+                                            <a class="page-link @(Model.Filter.Page >= Model.PagesCount ? "bg-gray1" : "")"
+                                               asp-controller="Meetings"
+                                               asp-action="@nameof(MeetingsController.MeetingRequests)"
+                                               asp-route-page="@Model.NextPage"
+                                               asp-route-pageSize="@Model.Filter.PageSize">
+                                                @Localizer["Reports_PaginationNext"]
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>@Localizer["Requests_NoPendingRequests"]</p>
+                }
+            </div>
         </div>
     </div>
 </div>

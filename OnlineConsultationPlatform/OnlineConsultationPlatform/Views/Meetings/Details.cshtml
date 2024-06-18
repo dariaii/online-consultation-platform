@@ -22,41 +22,125 @@
         </div>
         <div class="row flex-wrap">
             <div class="col-xxl-6" style="margin-right: 2rem">
-                    <div class="input-box">
-                        <label asp-for="User.FirstName">@Localizer["Meeting_FirstName"]</label>
-                        <input asp-for="User.FirstName" type="text" disabled>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="User.LastName">@Localizer["Meeting_LastName"]</label>
-                        <input asp-for="User.LastName" type="text" disabled>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="User.Email">@Localizer["Meeting_Email"]</label>
-                        <input asp-for="User.Email" type="text" disabled>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="Subject">@Localizer["Meeting_Subject"]</label>
-                        <input asp-for="Subject" type="text" disabled>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="FirstQuestion">@Localizer["Meeting_FirstQuestion"]</label>
-                        <textarea asp-for="FirstQuestion" rows="2" cols="50" disabled></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="SecondQuestion">@Localizer["Meeting_SecondQuestion"]</label>
-                        <textarea asp-for="SecondQuestion" rows="2" cols="50" disabled></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="ThirdQuestion">@Localizer["Meeting_ThirdQuestion"]</label>
-                        <textarea asp-for="ThirdQuestion" rows="2" cols="50" disabled></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label asp-for="ExtraInformation">@Localizer["Meeting_ExtraInformation"]</label>
-                        <textarea asp-for="ExtraInformation" rows="4" cols="50" disabled></textarea>
-                    </div>
+                <div class="input-box">
+                    <label asp-for="User.FirstName">@Localizer["Meeting_FirstName"]</label>
+                    <input asp-for="User.FirstName" type="text" disabled>
+                </div>
+                <div class="input-box">
+                    <label asp-for="User.LastName">@Localizer["Meeting_LastName"]</label>
+                    <input asp-for="User.LastName" type="text" disabled>
+                </div>
+                <div class="input-box">
+                    <label asp-for="User.Email">@Localizer["Meeting_Email"]</label>
+                    <input asp-for="User.Email" type="text" disabled>
+                </div>
+                <div class="input-box">
+                    <label asp-for="Subject">@Localizer["Meeting_Subject"]</label>
+                    <input asp-for="Subject" type="text" disabled>
+                </div>
+                <div class="input-box">
+                    <label asp-for="FirstQuestion">@Localizer["Meeting_FirstQuestion"]</label>
+                    <textarea asp-for="FirstQuestion" rows="2" cols="50" disabled></textarea>
+                </div>
+                <div class="input-box">
+                    <label asp-for="SecondQuestion">@Localizer["Meeting_SecondQuestion"]</label>
+                    <textarea asp-for="SecondQuestion" rows="2" cols="50" disabled></textarea>
+                </div>
+                <div class="input-box">
+                    <label asp-for="ThirdQuestion">@Localizer["Meeting_ThirdQuestion"]</label>
+                    <textarea asp-for="ThirdQuestion" rows="2" cols="50" disabled></textarea>
+                </div>
+                <div class="input-box">
+                    <label asp-for="ExtraInformation">@Localizer["Meeting_ExtraInformation"]</label>
+                    <textarea asp-for="ExtraInformation" rows="4" cols="50" disabled></textarea>
+                </div>
             </div>
+
             <div id="confirm-meeting" class="col-xxl-4 col-xl-6">
-                <partial name="_ConfirmMeeting" model="Model" />
+                <div>
+                    @if (TempData["MessageFailure"] != null)
+                    {
+                        <div class="col-lg-12 text-danger">@TempData["MessageFailure"]</div>
+                    }
+
+                    @if (User.IsInRole(Roles.Mentor.ToString()))
+                    {
+                        <div class="show-details-form">
+                            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.AcceptMeetingRequest)">
+                                <input type="hidden" name="date" value="@Model.FirstDateOption" />
+                                <input type="hidden" name="meetingId" value="@Model.Id" />
+
+                                <div class="row flex-wrap">
+                                    <div class="col-8">
+                                        <p><span>@Localizer["Meeting_DateOfMeeting"] </span><span class="fw-bold">@DateTimeExtensions.ToDayMonthYear(Model.FirstDateOption)</span></p>
+                                        <p><span>@Localizer["Meeting_TimeOfMeeting"] </span><span class="fw-bold">@DateTimeExtensions.ToHourMinute(Model.FirstDateOption)</span></p>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center">
+                                        <button class="btn" type="submit">
+                                            @Localizer["Requests_Accept"]
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="show-details-form">
+                            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.AcceptMeetingRequest)">
+                                <input type="hidden" name="date" value="@Model.SecondDateOption" />
+                                <input type="hidden" name="meetingId" value="@Model.Id" />
+
+                                <div class="row flex-wrap">
+                                    <div class="col-8">
+                                        <p><span>@Localizer["Meeting_DateOfMeeting"] </span><span class="fw-bold">@DateTimeExtensions.ToDayMonthYear(Model.SecondDateOption)</span></p>
+                                        <p><span>@Localizer["Meeting_TimeOfMeeting"] </span><span class="fw-bold">@DateTimeExtensions.ToHourMinute(Model.SecondDateOption)</span></p>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center">
+                                        <button class="btn" type="submit">
+                                            @Localizer["Requests_Accept"]
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div style="margin-top: 2rem">
+                            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.DeclineMeetingRequest)">
+                                <input type="hidden" name="meetingId" value="@Model.Id" />
+                                <div>
+                                    <button class="btn bg-gray2" type="submit">
+                                        @Localizer["Requests_Decline"]
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                    @if (User.IsInRole(Roles.Admin.ToString()))
+                    {
+                        var mentors = UsersService.GetMentors();
+
+                        <div class="mb-4">
+                            <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.AssignMentor)">
+                                <input type="hidden" name="meetingId" value="@Model.Id" />
+
+                                <div class="input-box col-6">
+                                    <label for="mentorId">@Localizer["Requests_AssignMentor"]</label>
+                                    <select name="mentorId">
+                                        <option value="" selected disabled>@Localizer["Requests_AssignMentor"]</option>
+                                        @foreach (var mentor in mentors)
+                                        {
+                                            <option value="@mentor.Id">@mentor.FirstName @mentor.LastName</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <button class="btn" type="submit">
+                                        @Localizer["Requests_Assign"]
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+
             </div>
         </div>
     </div>

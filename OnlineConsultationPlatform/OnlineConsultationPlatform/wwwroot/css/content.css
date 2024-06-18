@@ -1,7 +1,7 @@
 ﻿.person-info {
     height: 100%;
     padding: 6rem 2rem 0;
-    background-color: #a2e8cb;
+    background-color: #a1e4e8;
     text-align: center;
     box-shadow: -2px 0px 11px -2px #bfb9b9;
 }
@@ -69,7 +69,7 @@
         align-items: baseline;
         justify-content: center;
         padding: 0.5rem 1.5rem 1rem;
-        border: 2px solid #359fa1;
+        border: 2px solid #165895;
     }
 
         .person-info .date-wrap .today-text {
@@ -95,7 +95,7 @@
         width: 10rem;
         margin: -1.5rem auto 0;
         padding: 0.5rem 1rem;
-        background-color: #359fa1;
+        background-color: #165895;
         color: #08273d;
         font-size: 1.5rem;
         font-weight: 700;
@@ -117,7 +117,7 @@
         margin-bottom: 2rem;
     }
 
-        .form-wrap .logo-box .login-inedu-logo {
+        .form-wrap .logo-box .login-OCP-logo {
             max-width: 12rem;
             margin-bottom: 0.5rem;
         }
@@ -146,7 +146,7 @@
 
             .form-wrap .form-register-link-wrap p a {
                 display: inline-block;
-                color: #359fa1;
+                color: #165895;
             }
 
                 .form-wrap .form-register-link-wrap p a:hover {
@@ -161,7 +161,7 @@
 
     .form-wrap .forgotten-pass-wrap a {
         display: inline-block;
-        color: #359fa1;
+        color: #165895;
         font-size: 1.5rem;
     }
 
@@ -214,16 +214,6 @@
         font-size: 1.5rem;
     }
 
-    .form-wrap .language-selector-wrap {
-        position: relative;
-        margin-right: 1.5rem;
-        cursor: pointer;
-    }
-
-        .form-wrap .language-selector-wrap.selected ul {
-            display: block;
-        }
-
 .schedule-wrap {
     margin-top: 3rem;
     border-radius: 0.5rem;
@@ -248,15 +238,15 @@
     }
 
         .schedule-wrap .sch-card-item.sch-today-item {
-            background-color: #359fa1;
+            background-color: #165895;
         }
 
         .schedule-wrap .sch-card-item.sch-upcoming-item {
-            background-color: #5bbf95;
+            background-color: #5bbabf;
         }
 
         .schedule-wrap .sch-card-item.sch-recent-item {
-            background-color: #a2e8cb;
+            background-color: #a1e4e8;
         }
 
     .schedule-wrap .meeting-time span {
@@ -311,7 +301,7 @@
     .mentor-updates-wrap .mentor-update-item {
         border-radius: 0.5rem;
         padding: 1.5rem;
-        background-color: #a2e8cb;
+        background-color: #a1e4e8;
     }
 
         .mentor-updates-wrap .mentor-update-item .mentor-date-link-box {
@@ -406,7 +396,7 @@
         overflow: hidden;
         width: 20rem;
         height: 20rem;
-        margin: 0 auto 2rem;
+        margin: auto;
     }
 
         .profile-img-wrap .user-image-box img {
@@ -420,7 +410,7 @@
         }
 
     .profile-img-wrap .person-name {
-        margin-bottom: 0.3rem;
+        margin-bottom: 1rem;
     }
 
         .profile-img-wrap .person-name span {
@@ -428,14 +418,14 @@
             font-size: 2.7rem;
         }
 
-    .profile-img-wrap .person-email {
-        margin-bottom: 1.5rem;
-    }
+.profile-img-wrap .person-email {
+    margin-bottom: 1.5rem;
+}
 
-        .profile-img-wrap .person-email span {
-            color: #000;
-            font-size: 2.2rem;
-        }
+    .profile-img-wrap .person-email span {
+        color: #000;
+        font-size: 2.2rem;
+    }
 
 .profile-details-wrap {
     -webkit-box-shadow: 0 0 10px #bfb9b9;
@@ -466,6 +456,10 @@
 
 .inner-form {
     margin-bottom: 3rem;
+}
+
+.user-card .user-info {
+    overflow: hidden;
 }
 
 .user-card .user-image-box {
@@ -621,6 +615,10 @@
             font-size: 1.5rem;
         }
 
+        .calendar-wrap .calendar-year-wrap.calendar-controls a {
+            cursor: pointer;
+        }
+
     .calendar-wrap .calendar-info-wrap {
         padding: 2rem 1rem;
     }
@@ -644,7 +642,7 @@
         .calendar-wrap .calendar-weekday-wrap .weekday-box {
             width: 17rem;
             padding: 1.5rem 0.5rem;
-            background-color: #359fa1;
+            background-color: #165895;
             color: #fff;
             font-size: 1.5rem;
             font-weight: 700;
@@ -673,13 +671,13 @@
             }
 
             .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box {
-                background-color: #5bbf95;
+                background-color: #5bbabf;
                 padding: 0.5rem;
                 margin-bottom: 0.5rem;
             }
 
                 .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box.past-calendar-meeting, .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box.upcoming-calendar-meeting {
-                    background-color: #a2e8cb;
+                    background-color: #a1e4e8;
                 }
 
                 .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box:last-child {
@@ -725,7 +723,7 @@
 }
 
 .table-wrap thead {
-    background-color: #a2e8cb;
+    background-color: #a1e4e8;
 }
 
 .pagination-wrap {
@@ -740,4 +738,9 @@
             color: #205276;
             padding: 0.4rem 1rem;
             font-size: 1.4rem;
+        }
+
+        .pagination-wrap .pagination .page-item.active .page-link {
+            background-color: #a1e4e8;
+            border-color: #a1e4e8;
         }

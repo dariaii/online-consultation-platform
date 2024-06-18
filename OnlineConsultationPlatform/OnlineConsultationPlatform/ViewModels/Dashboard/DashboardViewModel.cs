@@ -1,4 +1,4 @@
-﻿using OnlineConsultationPlatform.Core.Services;
+﻿using OnlineConsultationPlatform.Infrastructure;
 using OnlineConsultationPlatform.Data.Entities;
 
 namespace OnlineConsultationPlatform.ViewModels

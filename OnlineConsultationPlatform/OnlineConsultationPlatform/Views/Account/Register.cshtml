@@ -6,7 +6,7 @@
 
 <form asp-route-returnUrl="@Model.ReturnUrl" asp-action="@nameof(AccountController.Register)" method="post" class="form-wrap" autocomplete="off">
     <div class="logo-box">
-        <img class="login-inedu-logo" src="~/images/inedu-logo.png" alt="InEdu Logo" />
+        <img class="login-OCP-logo" src="~/images/OCP-logo.png" alt="OCP Logo" />
     </div>
     <div class="form-title">
         <h3 class="sub-title">@Localizer["Account_SignUp"]</h3>
@@ -58,19 +58,6 @@
         <label asp-for="@Model.IsMentor" class="text-left">
             <input asp-for="@Model.IsMentor" type="checkbox" /> @Localizer["Account_IsMentor"]
         </label>
-    </div>
-    <div class="input-box">
-        <div class="checkbox-wrap mb-4 text-left">
-            <label asp-for="HasAgreedWithTermsAndConditions" class="text-left">
-                <input asp-for="@Model.HasAgreedWithTermsAndConditions" type="checkbox"/> 
-
-                @Localizer["Account_AgreeWithTermsAndConditions"] 
-                <a asp-action="@nameof(StaticPagesController.TermsAndConditions)" asp-controller="StaticPages" target="_blank" class="link">
-                    @Localizer["TermsAndConditions_Link"]
-                </a>
-            </label>  
-        </div>
-        <span asp-validation-for="@Model.HasAgreedWithTermsAndConditions" class="text-danger text-left"></span>    
     </div>
 
     <button type="submit" class="btn login-btn">@Localizer["Account_Register"]</button>

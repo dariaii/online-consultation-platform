@@ -8,29 +8,9 @@
     <div class="nav-wrap">
         <a href="/">
             <div class="nav-logo-wrap">
-                <img src="~/images/inedu-logo.png" />
+                <img src="~/images/OCP-logo.png" />
             </div>
         </a>
-        <div class="nav-user-info">
-            <div class="user-image-box">
-                @if (Model.ProfilePicturePath != null)
-                {
-                    <img src="~/profile-pictures/@Model.ProfilePicturePath" alt="user image">
-                }
-                else
-                {
-                    <img src="~/profile-pictures/@Configuration["DefaultProfilePicture"]" alt="user image">
-                }
-            </div>
-            <div class="nav-acc-details">
-                <div class="acc-name">
-                    <span>@Model.FirstName @Model.LastName</span>
-                </div>
-                <div class="acc-email">
-                    <span>@Model.Email</span>
-                </div>
-            </div>
-        </div>
         <ul id="sidebar">
             <li>
                 <a asp-controller="Dashboard" asp-action="@nameof(DashboardController.Index)">
@@ -38,11 +18,11 @@
                     <span>@Localizer["Sidebar_Home"]</span>
                 </a>
             </li>
-            @if (User.IsInRole(nameof(Roles.Teacher)))
+            @if (User.IsInRole(nameof(Roles.Student)))
             {
                 <li>
                     <a asp-controller="Meetings" asp-action="@nameof(MeetingsController.Index)">
-                        <span class="fa fa-address-book-o"></span>
+                        <span class="fa-solid fa-address-book"></span>
                         <span>@Localizer["Sidebar_BookMeeting"]</span>
                     </a>
                 </li>
@@ -51,7 +31,7 @@
             {
                 <li>
                     <a asp-controller="Meetings" asp-action="@nameof(MeetingsController.MeetingRequests)">
-                        <span class="fa fa-address-book-o"></span>
+                        <span class="fa-solid fa-address-book"></span>
                         <span>
                             @Localizer["Sidebar_Requests"]
                             @if (requestsCount > 0)
@@ -71,7 +51,7 @@
             @if (User.IsInRole(nameof(Roles.Mentor)))
             {
                 <li>
-                    <a asp-controller="Mentor" asp-action="@nameof(MentorController.ActiveMentors)">
+                    <a asp-controller="Mentors" asp-action="@nameof(MentorsController.ActiveMentors)">
                         <span class="fa fa-users"></span>
                         <span>@Localizer["Sidebar_Mentors"]</span>
                     </a>
@@ -80,14 +60,14 @@
             @if (User.IsInRole(nameof(Roles.Admin)))
             {
                 <li>
-                    <a asp-controller="Admin" asp-action="@nameof(AdminController.Users)">
+                    <a asp-controller="Admin" asp-action="@nameof(AdminController.GetUsers)">
                         <span class="fa fa-users"></span>
                         <span>@Localizer["Sidebar_Users"]</span>
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Admin" asp-action="@nameof(AdminController.Meetings)">
-                        <span class="fa fa-address-card-o"></span>
+                    <a asp-controller="Admin" asp-action="@nameof(AdminController.GetMeetings)">
+                        <span class="fa fa-address-card"></span>
                         <span>@Localizer["Sidebar_Meetings"]</span>
                     </a>
                 </li>
@@ -101,18 +81,6 @@
                     </a>
                 </li>
             }
-            <li>
-                <a asp-controller="StaticPages" asp-action="@nameof(StaticPagesController.Help)">
-                    <span class="fa fa-question"></span>
-                    <span>@Localizer["Sidebar_Help"]</span>
-                </a>
-            </li>
         </ul>
-    </div>
-    <div class="logout-wrap">
-        <a asp-controller="Account" asp-action="@nameof(AccountController.Logout)" title="Logout">
-            <span class="icon-switch"></span>
-            <span>@Localizer["Logout"]</span>
-        </a>
     </div>
 </div>

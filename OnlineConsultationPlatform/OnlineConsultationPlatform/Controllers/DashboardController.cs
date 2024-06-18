@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineConsultationPlatform.Infrastructure;
 using OnlineConsultationPlatform.ViewModels;
 using OnlineConsultationPlatform.Core.Services;
 

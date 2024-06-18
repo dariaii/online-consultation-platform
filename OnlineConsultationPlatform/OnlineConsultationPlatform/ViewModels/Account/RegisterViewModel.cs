@@ -28,9 +28,6 @@ namespace OnlineConsultationPlatform.ViewModels
 
         public bool IsMentor { get; set; }
 
-        [Range(typeof(bool), "true", "true", ErrorMessage = "Message_RequiredField")]
-        public bool HasAgreedWithTermsAndConditions { get; set; }
-
         public string? ReturnUrl { get; set; }
     }
 }

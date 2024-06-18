@@ -24,9 +24,18 @@ namespace OnlineConsultationPlatform.Controllers
 
         [HttpGet]
         [Route("/reports")]
-        public IActionResult Index()
+        public IActionResult Index(int? page = null, int? pageSize = null)
         {
-            return View(BuildModel());
+            var viewModel = new ReportsGridViewModel
+            {
+                Filter = new ReportsFilterViewModel() { Page = page ?? 1, PageSize = pageSize ?? PAGE_SIZE },
+                Meetings = _meetingService.GetMeetingsWithoutReports()
+            };
+
+            viewModel.Data = _reportsService.GetReports(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize);
+            viewModel.TotalRecordsCount = totalRecordsCount;
+
+            return View("Reports", viewModel);
         }
 
         [HttpPost]
@@ -42,17 +51,16 @@ namespace OnlineConsultationPlatform.Controllers
 
             if (result)
             {
-                TempData["UploadReportSuccess"] = _localizer["Reports_SuccessMessage"];
+                TempData["UploadReportSuccess"] = _localizer["Reports_SuccessMessage"].ToString();
             }
             else
             {
-                TempData["UploadReportError"] = _localizer["Reports_ErrorMessage"];
+                TempData["UploadReportError"] = _localizer["Reports_ErrorMessage"].ToString();
             }
 
-            return PartialView("_ReportsTable", BuildModel());
+            return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = nameof(Roles.Admin))]
         [HttpGet]
         [Route("/reports/download")]
         public IActionResult DownloadReport(string fileName)
@@ -68,12 +76,6 @@ namespace OnlineConsultationPlatform.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetNextPage(ReportsFilterViewModel filter)
-        {
-            return PartialView("_ReportsTable", BuildModel(filter));
-        }
-
-        [HttpGet]
         [Route("/reports/offline/new")]
         public IActionResult UploadOfflineReport()
         {
@@ -84,7 +86,7 @@ namespace OnlineConsultationPlatform.Controllers
         [Route("/reports/offline/new")]
         public IActionResult UploadOfflineReport(OfflineReportsViewModel model)
         {
-            var result = _reportsService.SaveReport(model.ReportFile, null, model.MeetingDate, model.TeacherName);
+            var result = _reportsService.SaveReport(model.ReportFile, null, model.MeetingDate, model.StudentName);
 
             if (result)
             {
@@ -96,20 +98,6 @@ namespace OnlineConsultationPlatform.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        ReportsGridViewModel BuildModel(ReportsFilterViewModel filter = null)
-        {
-            var viewModel = new ReportsGridViewModel
-            {
-                Filter = filter ?? new ReportsFilterViewModel() { Page = 1, PageSize = PAGE_SIZE },
-                Meetings = _meetingService.GetMeetingsWithoutReports()
-            };
-
-            viewModel.Data = _reportsService.GetReports(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize);
-            viewModel.TotalRecordsCount = totalRecordsCount;
-
-            return viewModel;
         }
     }
 }

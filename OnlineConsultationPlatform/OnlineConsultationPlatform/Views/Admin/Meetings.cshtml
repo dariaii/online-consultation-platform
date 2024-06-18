@@ -4,7 +4,53 @@
 }
 
 <div class="main-container">
-    <div id="meetings-table" class="w-100">
-        <partial name="_MeetingsTable" model="Model" />
+    <div class="w-100">
+        <div class="main-content-left">
+            <div class="page-title-wrap">
+                <div class="title-box">
+                    <h2>@Localizer["Admin_AllMeetings"]</h2>
+                    <h3>@Localizer["Admin_BrowseAllMeetings"]</h3>
+                </div>
+            </div>
+            <div class="switch-wrap mb-5">
+                <h5>@Localizer["Admin_ShowUnconfirmedMeetings"]</h5>
+
+                <label class="switch">
+                    <input id="show-unconfirmed" type="checkbox" checked="@Model.Filter.ShowUnconfirmed" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div id="meetings-table">
+                <partial name="_MeetingsTable" model="Model" />
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    var showUnconfirmed = @(Model.Filter.ShowUnconfirmed ? 1 : 0);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        $('#show-unconfirmed').change(() => updateMeetingsTable());
+    });
+
+    function updateMeetingsTable() {
+        showUnconfirmed = showUnconfirmed === 1 ? 0 : 1;
+
+        $.ajax({
+            url: '@Url.Action(nameof(AdminController.FilterMeetings), "Admin")',
+            type: 'GET',
+            data: { showUnconfirmed: Boolean(showUnconfirmed), page: 1, pageSize: @Model.Filter.PageSize },
+            success: function (data) {
+                $('#meetings-table').html(data);
+
+                var changedUrl = `${location.protocol}//${location.host}${location.pathname}?showUnconfirmed=${Boolean(showUnconfirmed)}&page=1&pageSize=${@Model.Filter.PageSize}`;
+                history.pushState(changedUrl, changedUrl, changedUrl);
+                window.addEventListener('popstate', function () {
+                    window.location.reload();
+                });
+            }
+        });
+    }
+</script>

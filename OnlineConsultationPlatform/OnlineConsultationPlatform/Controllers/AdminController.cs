@@ -21,66 +21,81 @@ namespace OnlineConsultationPlatform.Controllers
         private readonly int PAGE_SIZE_USERS = configuration.GetValue<int>("PaginationSettings:UsersPageSize");
 
         [HttpGet]
-        [Route("/admin/users")]
-        public IActionResult Users()
-        {
-            return View(GetAllUsers());
-        }
-
-        [HttpPost]
-        [Route("/admin/users/toggle-user")]
-        public IActionResult ToggleAccountStatus(string userId)
-        {
-            _usersService.UpdateAccessStatus(userId);
-
-            return PartialView("_UserCard", GetUserStatistics(_authenticationService.GetUserById(userId)));
-        }
-
-        [HttpGet]
-        public IActionResult GetFilteredUsers(UsersFilterViewModel filter)
-        {
-            return PartialView("_UserCards", GetAllUsers(filter));
-        }
-
-        [HttpGet]
         [Route("/admin/meetings")]
-        public IActionResult Meetings()
+        public IActionResult GetMeetings(bool? showUnconfirmed = null, int? page = null, int? pageSize = null)
         {
-            return View(GetAllMeetings());
+            return View("Meetings", BuildMeetingsModel(showUnconfirmed, page, pageSize));
         }
 
         [HttpGet]
-        public IActionResult GetFilteredMeetings(MeetingsFilterViewModel filter)
+        public IActionResult FilterMeetings(bool? showUnconfirmed = null, int? page = null, int? pageSize = null)
         {
-            return PartialView("_MeetingsTable", GetAllMeetings(filter));
+            return PartialView("_MeetingsTable", BuildMeetingsModel(showUnconfirmed, page, pageSize));
         }
 
-        UsersGridViewModel GetAllUsers(UsersFilterViewModel filter = null)
+        MeetingsGridViewModel BuildMeetingsModel(bool? showUnconfirmed = null, int? page = null, int? pageSize = null)
         {
-            var viewModel = new UsersGridViewModel
+            var viewModel = new MeetingsGridViewModel
             {
-                Filter = filter ?? new UsersFilterViewModel() { Page = 1, PageSize = PAGE_SIZE_USERS }
+                Filter = new MeetingsFilterViewModel()
+                {
+                    ShowUnconfirmed = showUnconfirmed != null && Convert.ToBoolean(showUnconfirmed),
+                    Page = page ?? 1,
+                    PageSize = pageSize ?? PAGE_SIZE_MEETINGS
+                }
             };
 
-            viewModel.Data = 
-                _usersService.GetUsers(out var totalRecordsCount, viewModel.Filter.ShowDeactivated, viewModel.Filter.Page, viewModel.Filter.PageSize)
-                    .Select(user => GetUserStatistics(user))
-                    .ToList();
+            viewModel.Data = _meetingService.GetMeetings(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize, true, viewModel.Filter.ShowUnconfirmed, false);
 
             viewModel.TotalRecordsCount = totalRecordsCount;
 
             return viewModel;
         }
 
-        MeetingsGridViewModel GetAllMeetings(MeetingsFilterViewModel filter = null)
+        [HttpGet]
+        [Route("/admin/users")]
+        public IActionResult GetUsers(bool? showDeactivated = null, int? page = null, int? pageSize = null, string? userId = null)
         {
-            var viewModel = new MeetingsGridViewModel
+            if (userId != null)
             {
-                Filter = filter ?? new MeetingsFilterViewModel() { Page = 1, PageSize = PAGE_SIZE_MEETINGS }
+                _usersService.UpdateAccessStatus(userId);
+            }
+
+            return View("Users", BuildUsersModel(showDeactivated, page, pageSize));
+        }
+
+        [HttpGet]
+        public IActionResult FilterUsers(bool? showDeactivated = null, int? page = null, int? pageSize = null)
+        {
+            return PartialView("_UserCards", BuildUsersModel(showDeactivated, page, pageSize));
+        }
+
+        [HttpPost]
+        [Route("/admin/users/toggle-user")]
+        public IActionResult ToggleAccountStatus(string userId, bool? showDeactivated = false, int? page = null, int? pageSize = null)
+        {
+            _usersService.UpdateAccessStatus(userId);
+
+            return RedirectToAction(nameof(GetUsers), new { showDeactivated, page, pageSize });
+        }
+
+        UsersGridViewModel BuildUsersModel(bool? showDeactivated = null, int? page = null, int? pageSize = null)
+        {
+            var viewModel = new UsersGridViewModel
+            {
+                Filter = new UsersFilterViewModel()
+                {
+                    ShowDeactivated = showDeactivated != null && Convert.ToBoolean(showDeactivated),
+                    Page = page ?? 1,
+                    PageSize = pageSize ?? PAGE_SIZE_USERS
+                }
             };
 
-            viewModel.Data = _meetingService.GetMeetings(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize, true, viewModel.Filter.ShowUnconfirmed, false);
-            
+            viewModel.Data =
+                _usersService.GetUsers(out var totalRecordsCount, viewModel.Filter.ShowDeactivated, viewModel.Filter.Page, viewModel.Filter.PageSize)
+                    .Select(GetUserStatistics)
+                    .ToList();
+
             viewModel.TotalRecordsCount = totalRecordsCount;
 
             return viewModel;

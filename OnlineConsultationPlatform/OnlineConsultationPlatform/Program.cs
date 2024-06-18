@@ -43,7 +43,8 @@ builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>()
     .AddRoles<IdentityRole>()
     .AddErrorDescriber<MultilanguageIdentityErrorDescriber>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
@@ -123,13 +124,5 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-using (var scope = app.Services.CreateScope())
-{
-    DataSeeder.Initialize(
-        scope.ServiceProvider.GetRequiredService<ApplicationDbContext>(),
-        scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>(),
-        builder.Configuration);
-}
 
 app.Run();

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 
 namespace OnlineConsultationPlatform.Core.Services
 {
@@ -40,7 +39,7 @@ namespace OnlineConsultationPlatform.Core.Services
         {
             if (file != null && fileName != null)
             {
-                string dirPath = Path.Combine(_webHostEnvironment.ContentRootPath, "reports");
+                string dirPath = Path.Combine(_webHostEnvironment.WebRootPath, "reports");
 
                 if (file.Length > 0)
                 {
@@ -59,7 +58,7 @@ namespace OnlineConsultationPlatform.Core.Services
         {
             if (!string.IsNullOrEmpty(fileName))
             {
-                string fileFullPath = Path.Combine(_webHostEnvironment.ContentRootPath, "reports/", fileName);
+                string fileFullPath = Path.Combine(_webHostEnvironment.WebRootPath, "reports/", fileName);
 
                 var file = File.ReadAllBytes(fileFullPath);
 

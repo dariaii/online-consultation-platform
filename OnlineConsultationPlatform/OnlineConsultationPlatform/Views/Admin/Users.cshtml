@@ -1,10 +1,59 @@
 ﻿@model UsersGridViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = Localizer["Admin_Users"];
 }
 
 <div class="main-container">
-    <div id="allUsers" class="w-100">
-        <partial name="_UserCards" model="Model" />
+    <div class="w-100">
+        <div class="main-content-left">
+            <div class="page-title-wrap">
+                <div class="title-box">
+                    <h2>@Localizer["Admin_Users"]</h2>
+                    <h3>@Localizer["Admin_UserInformation"]</h3>
+                </div>
+            </div>
+
+            <div class="switch-wrap mb-5">
+                <h5>@Localizer["Admin_ShowDeactivatedAccounts"]</h5>
+
+                <label class="switch">
+                    <input id="show-deactivated" type="checkbox" checked="@Model.Filter.ShowDeactivated" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div id="user-cards-partial">
+                <partial name="_UserCards" model="@Model" />
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    var showDeactivated = @(Model.Filter.ShowDeactivated ? 1 : 0);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        $('#show-deactivated').change(() => updateUserList());
+    });
+
+    function updateUserList() {
+        showDeactivated = showDeactivated === 1 ? 0 : 1;
+
+        $.ajax({
+            url: '@Url.Action(nameof(AdminController.FilterUsers), "Admin")',
+            type: 'GET',
+            data: { showDeactivated: Boolean(showDeactivated), page: 1, pageSize: @Model.Filter.PageSize },
+            success: function (data) {
+                $('#user-cards-partial').html(data);
+
+                var changedUrl = `${location.protocol}//${location.host}${location.pathname}?showDeactivated=${Boolean(showDeactivated)}&page=1&pageSize=${@Model.Filter.PageSize}`;
+                history.pushState(changedUrl, changedUrl, changedUrl);
+                window.addEventListener('popstate', function () {
+                    window.location.reload();
+                });
+            }
+        });
+    }
+</script>

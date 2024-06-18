@@ -20,15 +20,18 @@ namespace OnlineConsultationPlatform.Controllers
 
         readonly int PAGE_SIZE = configuration.GetValue<int>("PaginationSettings:RequestsPageSize");
 
-        [Authorize(Roles = nameof(Roles.Teacher))]
+        [Authorize(Roles = nameof(Roles.Student))]
         [HttpGet]
         [Route("/meetings")]
         public IActionResult Index()
         {
-            return View(BuildModel());
+            return View(new MeetingRequestViewModel
+            {
+                Mentors = _usersService.GetMentors()
+            });
         }
 
-        [Authorize(Roles = nameof(Roles.Teacher))]
+        [Authorize(Roles = nameof(Roles.Student))]
         [HttpPost]
         [Route("/meetings/new")]
         public IActionResult CreateMeetingRequest(MeetingRequestViewModel model)
@@ -54,11 +57,10 @@ namespace OnlineConsultationPlatform.Controllers
 
             model.Mentors = _usersService.GetMentors();
 
-
-            return RedirectToAction(nameof(Index));
+            return View("Index", model);
         }
 
-        [Authorize(Roles = nameof(Roles.Teacher))]
+        [Authorize(Roles = nameof(Roles.Student))]
         [HttpGet]
         [Route("/meetings/confirmed")]
         public IActionResult RequestConfirmed()
@@ -66,7 +68,7 @@ namespace OnlineConsultationPlatform.Controllers
             return View("MeetingRequestConfirmed");
         }
 
-        [Authorize(Roles = nameof(Roles.Teacher))]
+        [Authorize(Roles = nameof(Roles.Student))]
         [HttpGet]
         [Route("/meetings/feedback")]
         public IActionResult GetFeedbackForm(Guid meetingId)
@@ -80,7 +82,7 @@ namespace OnlineConsultationPlatform.Controllers
             });
         }
 
-        [Authorize(Roles = nameof(Roles.Teacher))]
+        [Authorize(Roles = nameof(Roles.Student))]
         [HttpPost]
         [Route("/meetings/feedback")]
         public IActionResult LeaveFeedback(FeedbackViewModel model)
@@ -97,29 +99,22 @@ namespace OnlineConsultationPlatform.Controllers
             return View("FeedbackForm", model);
         }
 
-        MeetingRequestViewModel BuildModel()
-        {
-            return new MeetingRequestViewModel
-            {
-                Mentors = _usersService.GetMentors()
-            };
-        }
-
         //Requests
 
         [Authorize(Roles = nameof(Roles.Admin) + "," + nameof(Roles.Mentor))]
         [HttpGet]
         [Route("/meetings/requests")]
-        public IActionResult MeetingRequests()
+        public IActionResult MeetingRequests(int? page = null, int? pageSize = null)
         {
-            return View("MeetingRequests", BuildMeetingRequestModel());
-        }
+            var viewModel = new MeetingsGridViewModel
+            {
+                Filter = new MeetingsFilterViewModel() { Page = page ?? 1, PageSize = pageSize ?? PAGE_SIZE }
+            };
+            viewModel.Data = _meetingService.GetPendingMeetings(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize);
 
-        [Authorize(Roles = nameof(Roles.Admin) + "," + nameof(Roles.Mentor))]
-        [HttpGet]
-        public IActionResult GetMeetingRequestsNextPage(MeetingsFilterViewModel filter)
-        {
-            return PartialView("_MeetingRequestsList", BuildMeetingRequestModel(filter));
+            viewModel.TotalRecordsCount = totalRecordsCount;
+
+            return View("MeetingRequests", viewModel);
         }
 
         [Authorize(Roles = nameof(Roles.Admin) + "," + nameof(Roles.Mentor))]
@@ -140,12 +135,12 @@ namespace OnlineConsultationPlatform.Controllers
 
                 TempData["RequestSuccess"] = _localizer["Requests_SuccessfulRequestAccept"].ToString();
 
-                return Ok();
+                return RedirectToAction(nameof(MeetingRequests));
             }
 
             TempData["MessageFailure"] = _localizer["Requests_FailedRequestConfirmation"].ToString();
 
-            return PartialView("_ConfirmMeeting", _meetingService.GetMeetingById(model.MeetingId.Value));
+            return RedirectToAction(nameof(MeetingRequests));
         }
 
         [Authorize(Roles = nameof(Roles.Admin) + "," + nameof(Roles.Mentor))]
@@ -176,25 +171,14 @@ namespace OnlineConsultationPlatform.Controllers
                 else
                 {
                     TempData["RequestError"] = _localizer["Requests_UnsuccessfulRequestAssign"].ToString();
+
+                    return RedirectToAction(nameof(ShowMeetingRequestDetails), new { meetingId });
                 }
             }
 
             TempData["RequestError"] = _localizer["Requests_PleaseChooseMentor"].ToString();
 
             return RedirectToAction(nameof(ShowMeetingRequestDetails), new { meetingId });
-        }
-
-        MeetingsGridViewModel BuildMeetingRequestModel(MeetingsFilterViewModel? filter = null)
-        {
-            var viewModel = new MeetingsGridViewModel
-            {
-                Filter = filter ?? new MeetingsFilterViewModel() { Page = 1, PageSize = PAGE_SIZE }
-            };
-            viewModel.Data = _meetingService.GetPendingMeetings(out var totalRecordsCount, viewModel.Filter.Page, viewModel.Filter.PageSize);
-
-            viewModel.TotalRecordsCount = totalRecordsCount;
-
-            return viewModel;
         }
     }
 }

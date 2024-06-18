@@ -22,7 +22,6 @@ namespace OnlineConsultationPlatform.Core.Services
             string? email,
             string? password,
             bool isMentor,
-            bool hasAgreedWithTerms,
             string? returnUrl);
 
         Task<IdentityResult> ConfirmEmailAsync(string token, string email, string returnUrl);
@@ -104,7 +103,6 @@ namespace OnlineConsultationPlatform.Core.Services
             string? email,
             string? password,
             bool isMentor,
-            bool hasAgreedWithTerms,
             string? returnUrl)
         {
             var user = new ApplicationUser
@@ -120,7 +118,7 @@ namespace OnlineConsultationPlatform.Core.Services
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, isMentor ? Roles.Mentor.ToString() : Roles.Teacher.ToString());
+                await _userManager.AddToRoleAsync(user, isMentor ? Roles.Mentor.ToString() : Roles.Student.ToString());
 
                 var url =
                     _urlHelper.Action(

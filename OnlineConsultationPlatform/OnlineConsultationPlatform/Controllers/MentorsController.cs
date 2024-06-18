@@ -6,7 +6,7 @@ using OnlineConsultationPlatform.Core.Infrastructure.Enums;
 namespace OnlineConsultationPlatform.Controllers
 {
     [Authorize(Roles = nameof(Roles.Mentor))]
-    public class MentorController(IUsersService usersService) : Controller
+    public class MentorsController(IUsersService usersService) : Controller
     {
         private readonly IUsersService _usersService = usersService;
 
