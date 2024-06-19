@@ -26,8 +26,7 @@
     background-color: #fff;
     overflow-x: hidden;
     position: sticky;
-    top: 60px;
-    height: calc(100vh - 60px)
+    height: calc(100vh - 6rem)
 }
 
 @media (max-width: 991px) {
