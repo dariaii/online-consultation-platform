@@ -9,6 +9,11 @@
         font-size: 1.5rem;
     }
 
+.offline-upload-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
 input {
     width: 100%;
     border: 1px solid #8d8d8d;
@@ -65,7 +70,6 @@ textarea {
 .input-group {
     position: relative;
     display: block;
-    margin-bottom: 2rem;
 }
 
     .input-group label {

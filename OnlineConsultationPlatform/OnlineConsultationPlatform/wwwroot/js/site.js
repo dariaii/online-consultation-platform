@@ -3,7 +3,7 @@
 });
 
 $(window).on('resize', function () {
-    if (window.innerWidth <= 991) {
+    if (window.innerWidth <= 900) {
         $(".main-sidebar").addClass("is-closed");
     }
     else {
@@ -12,7 +12,7 @@ $(window).on('resize', function () {
 });
 
 $(window).on('load', function () {
-    if (window.innerWidth <= 991) {
+    if (window.innerWidth <= 900) {
         $(".main-sidebar").addClass("is-closed");
     }
 });

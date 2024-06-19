@@ -29,7 +29,7 @@
     top: 6rem;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 900px) {
     .main-sidebar {
         z-index: 1000;
         position: fixed;
@@ -157,7 +157,7 @@
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 900px) {
     .main-container .main-content-left {
         padding: 2rem 1.5rem;
     }

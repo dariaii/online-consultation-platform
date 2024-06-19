@@ -189,11 +189,13 @@ namespace OnlineConsultationPlatform.Core.Services
                         && !x.IsDeclined
                         &&
                         (
-                            (x.MeetingDate.HasValue && x.MeetingDate.Value.Month == month)
-                            ||
-                            x.FirstDateOption.Month == month
-                            ||
-                            x.SecondDateOption.Month == month
+                            x.MeetingDate.HasValue
+                            ? (
+                                x.MeetingDate.Value.Month == month
+                            )
+                            : (
+                                x.FirstDateOption.Month == month || x.SecondDateOption.Month == month
+                            )
                         ))
                     .ToList();
         }
@@ -326,6 +328,7 @@ namespace OnlineConsultationPlatform.Core.Services
                .SetNoTracking<Meeting>()
                .Where(m =>
                        m.MentorId == mentorId
+                       && !m.IsDeclined
                        &&
                        (
                             m.MeetingDate == null

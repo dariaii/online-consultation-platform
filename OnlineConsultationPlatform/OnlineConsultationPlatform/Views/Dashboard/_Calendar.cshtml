@@ -16,13 +16,14 @@
 <div class="calendar-items-wrap">
 
     @{
+        int indexEmptyCells = 0;
         int index = 0;
 
         if (Model.EndOfPreviousMonth.DayOfWeek != DayOfWeek.Sunday)
         {
             for (var day = Model.StartOfLastWeekInPreviousMonth.Day; day <= Model.EndOfPreviousMonth.Day; day++)
             {
-                index++;
+                indexEmptyCells++;
                 <div class="calendar-item"></div>
             }
         }

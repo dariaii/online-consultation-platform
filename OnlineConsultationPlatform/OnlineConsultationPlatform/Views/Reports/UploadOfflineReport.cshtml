@@ -33,10 +33,18 @@
                     </div>
                 </div>
 
-                <button class="upload-btn" type="submit">
-                    <span class="fa-solid fa-cloud-arrow-up"></span>
-                    @Localizer["Reports_UploadItem"]
-                </button>
+                <div class="col-xl-4">
+                    <div class="offline-upload-buttons">
+                        <a class="btn bg-gray2" asp-action="@nameof(ReportsController.Index)" asp-controller="Reports">
+                            @Localizer["Reports_Cancel"]
+                        </a>
+
+                        <button class="upload-btn" type="submit">
+                            <span class="fa-solid fa-cloud-arrow-up"></span>
+                            @Localizer["Reports_UploadItem"]
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

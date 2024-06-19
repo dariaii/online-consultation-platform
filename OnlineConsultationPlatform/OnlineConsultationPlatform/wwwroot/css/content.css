@@ -238,7 +238,7 @@
     }
 
         .schedule-wrap .sch-card-item.sch-today-item {
-            background-color: #165895;
+            background-color: #239498;
         }
 
         .schedule-wrap .sch-card-item.sch-upcoming-item {
@@ -302,6 +302,7 @@
         border-radius: 0.5rem;
         padding: 1.5rem;
         background-color: #a1e4e8;
+        overflow: hidden;
     }
 
         .mentor-updates-wrap .mentor-update-item .mentor-date-link-box {
@@ -428,7 +429,7 @@
 .profile-details-wrap {
     -webkit-box-shadow: 0 0 10px #bfb9b9;
     box-shadow: 0 0 10px #bfb9b9;
-    padding: 1.5rem 1rem 2rem;
+    padding: 2rem;
 }
 
     .profile-details-wrap .sub-title-4 {
@@ -554,7 +555,7 @@
 }
 /****** Style Star Rating Widget *****/
 .leave-a-review-wrap fieldset {
-    width: 18rem;
+    width: 20rem;
 }
 
 .myratings {
@@ -564,6 +565,7 @@
 
 .rating > [id^=star] {
     display: none;
+    margin:auto;
 }
 
 .rating > label:before {
