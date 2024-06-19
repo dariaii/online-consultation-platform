@@ -21,12 +21,12 @@
     justify-content: space-between;
     width: 100%;
     max-width: 37rem;
-    height: 100%;
     box-shadow: 1px 0 13px -2px #bfb9b9;
     background-color: #fff;
     overflow-x: hidden;
     position: sticky;
-    height: calc(100vh - 6rem)
+    height: calc(100vh - 6rem);
+    top: 6rem;
 }
 
 @media (max-width: 991px) {

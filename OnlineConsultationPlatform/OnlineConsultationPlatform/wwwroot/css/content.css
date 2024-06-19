@@ -383,10 +383,10 @@
 }
 
 .profile-img-wrap {
-    -webkit-box-shadow: 0 0 10px #bfb9b9;
     box-shadow: 0 0 10px #bfb9b9;
     padding: 2rem;
     text-align: center;
+    overflow: hidden;
 }
 
     .profile-img-wrap .user-image-box {
@@ -454,6 +454,10 @@
 
 .inner-form {
     margin-bottom: 3rem;
+}
+
+.user-card{
+    overflow: hidden;
 }
 
 .user-card .user-image-box {
