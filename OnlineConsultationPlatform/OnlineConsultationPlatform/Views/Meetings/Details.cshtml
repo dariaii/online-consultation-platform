@@ -120,7 +120,7 @@
                             <form asp-controller="Meetings" asp-action="@nameof(MeetingsController.AssignMentor)">
                                 <input type="hidden" name="meetingId" value="@Model.Id" />
 
-                                <div class="input-box col-6">
+                                <div class="input-box col-6 col-xxl-8">
                                     <label for="mentorId">@Localizer["Requests_AssignMentor"]</label>
                                     <select name="mentorId">
                                         <option value="" selected disabled>@Localizer["Requests_AssignMentor"]</option>

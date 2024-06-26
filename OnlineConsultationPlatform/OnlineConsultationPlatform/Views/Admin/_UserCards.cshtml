@@ -28,6 +28,7 @@
                                 <p><span>@Localizer["Admin_PhoneNumber"] </span><span class="fw-bold">@userCard.User.PhoneNumber</span></p>
                             </div>
                             <hr class="bg-danger border-2 border-top border-dark">
+
                             @if (await UserManager.IsInRoleAsync(userCard.User, Roles.Mentor.ToString()))
                             {
                                 <p><span>@Localizer["Admin_MeetingsBooked"] </span><span class="fw-bold">@userCard.NumberOfMeetingsBooked</span></p>
@@ -38,18 +39,6 @@
                             {
                                 <p style="margin-bottom: 6rem"><span>@Localizer["Admin_MeetingsBooked"] </span><span class="fw-bold">@userCard.NumberOfMeetingsBooked</span></p>
                             }
-
-                            @* <form id="user-form-@userCard.User.Id" class="position-absolute" style="bottom: 3rem"
-                                  asp-controller="Admin" asp-action="@nameof(AdminController.ToggleAccountStatus)">
-                                <input name="showDeactivated" value="@Model.Filter.ShowDeactivated" type="hidden" />
-                                <input name="page" value="@Model.Filter.Page" type="hidden" />
-                                <input name="pageSize" value="@Model.Filter.PageSize" type="hidden" />
-                                <input name="userId" value="@userCard.User.Id" type="hidden" />
-
-                                <button class="btn" type="submit">
-                                    @(userCard.User.IsActive ? Localizer["Admin_DeactivateAccount"] : Localizer["Admin_ActivateAccount"])
-                                </button>
-                            </form> *@
 
                             <a class="btn position-absolute" style="bottom: 3rem"
                                asp-controller="Admin"
