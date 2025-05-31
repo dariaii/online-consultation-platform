@@ -23,3 +23,13 @@ $('ul#sidebar li a').each(function () {
         $(this).closest('li').addClass('active');
     }
 });
+
+$(window).on('load', function () {
+    if ($('#datepickers-container').length > 0) {
+        console.log($('#datepickers-container'))
+        setTimeout(() => {
+            $('#datepickers-container input[name="hours"]').attr('aria-label', 'Select hour');
+            $('#datepickers-container input[name="minutes"]').attr('aria-label', 'Select minute');
+        }, 100);
+    }
+});

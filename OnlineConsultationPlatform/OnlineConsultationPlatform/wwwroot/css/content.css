@@ -669,12 +669,12 @@
                 margin-bottom: 0.5rem;
                 padding: 0.5rem;
                 text-align: right;
-                color: #8d8d8d;
+                color: #747474; /*8d8d8d*/
                 font-size: 1.4rem;
             }
 
             .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box {
-                background-color: #5bbabf;
+                background-color: #a1e4e8; /*5bbabf*/
                 padding: 0.5rem;
                 margin-bottom: 0.5rem;
             }
@@ -698,7 +698,7 @@
                     }
 
                 .calendar-wrap .calendar-items-wrap .calendar-item .calendar-meeting-box .person-name span {
-                    color: #fff;
+                    color: #4d4d4d; /*fff*/
                     font-size: 1.2rem;
                     font-weight: 700;
                 }
