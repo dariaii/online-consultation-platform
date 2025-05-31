@@ -51,7 +51,7 @@
 
                 @foreach (var meeting in Model.Meetings.Where(x => x.MeetingDate == null && x.FirstDateOption.Day == index))
                 {
-                    <div class="calendar-meeting-box bg-gray2">
+                    <div class="calendar-meeting-box bg-gray3">
                         <div class="meeting-time">
                             <span>@DateTimeExtensions.ToHourMinute(meeting.FirstDateOption) @Localizer["Dashboard_Meeting"]</span>
                         </div>
@@ -63,7 +63,7 @@
 
                 @foreach (var meeting in Model.Meetings.Where(x => x.MeetingDate == null && x.SecondDateOption.Day == index))
                 {
-                    <div class="calendar-meeting-box bg-gray2">
+                    <div class="calendar-meeting-box bg-gray3">
                         <div class="meeting-time">
                             <span>@DateTimeExtensions.ToHourMinute(meeting.SecondDateOption) @Localizer["Dashboard_Meeting"]</span>
                         </div>

@@ -97,6 +97,10 @@ p {
     background-color: #8d8d8d !important;
 }
 
+.bg-gray3 {
+    background-color: #cccccc !important;
+}
+
 .fa {
     margin-right: 1rem;
 }
